@@ -55,7 +55,7 @@
     "@rangy/classapplier": "^2.1.0",
     "@rangy/core": "^2.1.0",
     "core-js": "^3.0.1",
-    "tslib": "^1.9.3"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {}
 }
