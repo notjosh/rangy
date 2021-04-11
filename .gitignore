@@ -8,7 +8,7 @@ node_modules
 *.test.amd.js
 *.test.iife.js
 *.test.d.ts
-/packages/test-util/*.js*
+/packages/test-util/*.js
 /packages/test-util/*.d.ts
 !/packages/test-util/typings.d.ts
 /packages/*/lib/

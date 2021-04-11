@@ -46,7 +46,7 @@
   "main": "lib/bundles/index.umd.js",
   "module": "lib/esm5/index.js",
   "es2015": "lib/esm2015/index.js",
-  "typings": "lib/types/types.d.ts",
+  "typings": "lib/types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "tsc -b ."
