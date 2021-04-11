@@ -24,6 +24,7 @@ const plugins: Plugin[] = [
   replace({
     exclude: "node_modules/**",
     values: buildVars,
+    preventAssignment: true,
     // TODO: strip log4javascript (lost this when upgrading @rollup/plugin-replace)
     // patterns: [
     //   //remove logging
