@@ -55,5 +55,7 @@
     "core-js": "^3.0.1",
     "tslib": "^1.9.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@rangy/test-util": "^2.1.0"
+  }
 }
