@@ -54,7 +54,6 @@
   "dependencies": {
     "@rangy/core": "^2.1.0",
     "core-js": "^3.0.1",
-    "mem": "^8.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {}

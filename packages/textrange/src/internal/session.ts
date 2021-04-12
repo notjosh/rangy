@@ -1,6 +1,7 @@
 import { RangeBase, util } from "@rangy/core";
 import NodeWrapper from "./nodewrapper";
 import Position from "./position";
+import ValueCache from "./valuecache";
 
 function createWrapperCache(nodeProperty: string) {
   var cache = new ValueCache();

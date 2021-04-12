@@ -48,19 +48,7 @@ export type CharacterRangeInfo = {
   backward: boolean;
 };
 
-export const saveCharacterRanges = (
-  containerNode: Node,
-  selection: Selection
-): CharacterRangeInfo[] => {
-  return [];
-};
-
-export const restoreCharacterRanges = (
-  containerNode: Node,
-  characterRanges: CharacterRangeInfo[]
-) => {};
-
-export const innerText = (el: Node, characterOptions) => {
+export const innerText = (el: Node, characterOptions: CharacterOptions) => {
   var range = createRange(el);
   range.selectNodeContents(el);
   var text = range.text(characterOptions);

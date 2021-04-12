@@ -1,12 +1,13 @@
 import { dom } from "@rangy/core";
-import mem from "mem";
 import log from "./log";
 import NodeWrapper from "./nodewrapper";
 import Session from "./session";
 import { CharacterOptions } from "./util/create-nested-options";
 import { Token } from "./util/default-tokenizer";
 import isCollapsedNode from "./util/is-collapsed-node";
+import Memoize from './util/memoize-decorator';
 import normalizeIgnoredCharacters from "./util/normalize-ignored-characters";
+import ValueCache from "./valuecache";
 
 const EMPTY = "EMPTY",
   NON_SPACE = "NON_SPACE",
@@ -264,7 +265,13 @@ class Position {
     ].join("_");
     var cachedChar = this.cache.get(cacheKey);
     if (cachedChar !== null) {
-      log.debug("Returning cached character '" + cachedChar + "'");
+      log.debug(
+        "Returning cached character '" +
+          cachedChar +
+          "' for key: '" +
+          cacheKey +
+          "'."
+      );
       log.groupEnd();
       return cachedChar;
     }
@@ -458,7 +465,7 @@ class Position {
     return this.character;
   }
 
-  @mem.decorator()
+  @Memoize()
   next(): Position | null {
     const pos = this;
 
@@ -494,7 +501,7 @@ class Position {
     return nextNode ? session.getPosition(nextNode, nextOffset) : null;
   }
 
-  @mem.decorator()
+  @Memoize()
   previous(): Position | null {
     const pos = this;
     var nodeWrapper = pos.nodeWrapper,
@@ -532,7 +539,7 @@ class Position {
     - Hidden (CSS visibility/display) elements
     - Script and style elements
     */
-  @mem.decorator()
+  @Memoize()
   nextVisible(): Position | null {
     const pos = this;
     var next = pos.next();
@@ -552,7 +559,7 @@ class Position {
     return newPos;
   }
 
-  @mem.decorator()
+  @Memoize()
   nextUncollapsed(): Position | null {
     const pos: Position = this;
     log.group("nextUncollapsed " + this.inspect());
@@ -568,7 +575,7 @@ class Position {
     return null;
   }
 
-  @mem.decorator()
+  @Memoize()
   previousVisible(): Position | null {
     const pos: Position = this;
     var previous = pos.previous();

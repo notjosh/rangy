@@ -28,6 +28,7 @@ function createCharacterIterator(
       }
     }
   }
+
   log.info(
     "endPos now " +
       (endPos ? endPos.inspect() : "") +

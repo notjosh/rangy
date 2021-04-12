@@ -9,9 +9,10 @@ import isCollapsedNode from "./util/is-collapsed-node";
 import isCollapsedWhitespaceNode from "./util/is-collapsed-whitespace-node";
 import isIgnoredNode from "./util/is-ignored-node";
 import isWhitespaceNode from "./util/is-whitespace-node";
+import Memoize from './util/memoize-decorator';
 import nextNode from "./util/next-node";
 import previousNode from "./util/previous-node";
-import mem from "mem";
+import ValueCache from "./valuecache";
 
 type TextNodeInfo = {
   node: Text;
@@ -37,37 +38,37 @@ class NodeWrapper {
     return "[NodeWrapper(" + dom.inspectNode(this.node) + ")]";
   }
 
-  @mem.decorator()
+  @Memoize()
   isCharacterDataNode(): boolean {
     return dom.isCharacterDataNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   getNodeIndex(): number {
     return dom.getNodeIndex(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   getLength(): number {
     return dom.getNodeLength(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   containsPositions(): boolean {
     return containsPositions(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   isWhitespace(): boolean {
     return isWhitespaceNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   isCollapsedWhitespace(): boolean {
     return isCollapsedWhitespaceNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   getComputedDisplay(): string {
     if (this.node.nodeType !== Node.ELEMENT_NODE) {
       throw new Error(
@@ -78,27 +79,27 @@ class NodeWrapper {
     return getComputedDisplay(this.node as Element);
   }
 
-  @mem.decorator()
+  @Memoize()
   isCollapsed(): boolean {
     return isCollapsedNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   isIgnored(): boolean {
     return isIgnoredNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   next() {
     return nextNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   previous() {
     return previousNode(this.node);
   }
 
-  @mem.decorator()
+  @Memoize()
   getTextNodeInfo(): TextNodeInfo {
     if (this.node.nodeType !== Node.TEXT_NODE) {
       throw new Error(
@@ -133,7 +134,7 @@ class NodeWrapper {
     };
   }
 
-  @mem.decorator()
+  @Memoize()
   hasInnerText(backward: boolean = false): boolean {
     if (this.node.nodeType !== Node.ELEMENT_NODE) {
       throw new Error(
@@ -197,7 +198,7 @@ class NodeWrapper {
     return false;
   }
 
-  @mem.decorator()
+  @Memoize()
   isRenderedBlock(): boolean {
     if (this.node.nodeType !== Node.ELEMENT_NODE) {
       throw new Error(
@@ -217,7 +218,7 @@ class NodeWrapper {
     return this.hasInnerText();
   }
 
-  @mem.decorator()
+  @Memoize()
   getTrailingSpace(): string {
     if (this.node.nodeType !== Node.ELEMENT_NODE) {
       throw new Error(
@@ -257,7 +258,7 @@ class NodeWrapper {
     return "";
   }
 
-  @mem.decorator()
+  @Memoize()
   getLeadingSpace(): string {
     switch (this.getComputedDisplay()) {
       case "inline":
