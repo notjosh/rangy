@@ -13,19 +13,24 @@ import "core-js/features/object/assign";
 export * from "./api";
 
 import * as util from "./util";
-export {util};
+export { util };
 
 export * from "./module";
 export * from "./DOMException";
 
 import * as dom from "./dom";
-export {dom};
+export { dom };
 
 export * from "./internal";
-import {shimCreateRange, shimGetSelection} from "./internal";
+import { shimCreateRange, shimGetSelection } from "./internal";
 
-export function shim(win?) {
-    win = win || window;
-    shimCreateRange(win);
-    shimGetSelection(win);
+// manually exporting classes to allow augmentation
+// see: https://github.com/microsoft/TypeScript/issues/18877
+import { WrappedRange, WrappedSelection } from "./internal";
+export { WrappedRange, WrappedSelection };
+
+export function shim(win?: Window) {
+  win = win || window;
+  shimCreateRange(win);
+  shimGetSelection(win);
 }
