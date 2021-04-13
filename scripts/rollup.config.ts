@@ -1,97 +1,112 @@
-import commonjs from "@rollup/plugin-commonjs";
-import nodeResolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
-import { resolve } from "path";
-import { Plugin, RollupOptions } from "rollup";
-import sourceMaps from "rollup-plugin-sourcemaps";
-import { terser } from "rollup-plugin-terser";
-import * as lerna from "../lerna.json";
-import { packages, packagesDir } from "./util";
+import replace from '@rollup/plugin-replace';
+import typescript from '@rollup/plugin-typescript';
+// import lernaGetPackages from 'lerna-get-packages';
+import path from 'path';
+import { ModuleFormat, RollupOptions } from 'rollup';
+import { terser } from 'rollup-plugin-terser';
+import { packages } from './util';
+
+const { LERNA_PACKAGE_NAME, LERNA_ROOT_PATH } = process.env;
+const PACKAGE_ROOT_PATH = process.cwd();
+const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, 'src/index.ts');
+const INPUT_TEST_FILE = path.join(PACKAGE_ROOT_PATH, 'index.ts');
+const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
+const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
+const IS_BROWSER_BUNDLE = !true; //!!PKG_JSON.browser;
+
+const ALL_MODULES = packages;
+
+console.log('ALL_MODULES', ALL_MODULES);
+console.log({ LERNA_PACKAGE_NAME });
+console.log({ LERNA_ROOT_PATH });
+console.log({ IS_BROWSER_BUNDLE });
+
+const isTestUtil = LERNA_PACKAGE_NAME === '@rangy/test-util';
+
+const LOCAL_GLOBALS = {
+  '@rangy/core': 'rangy',
+};
+
+const LOCAL_EXTERNALS = [...Object.keys(LOCAL_GLOBALS)];
+
+console.log({ LOCAL_GLOBALS, LOCAL_EXTERNALS });
+
+const input = isTestUtil ? INPUT_TEST_FILE : INPUT_FILE;
+const globals = LOCAL_GLOBALS;
+
+console.log({ globals });
 
 const buildVars = (() => {
   const date = new Date();
-  const month = "January,February,March,April,May,June,July,August,September,October,November,December".split(
-    ","
+  const month = 'January,February,March,April,May,June,July,August,September,October,November,December'.split(
+    ','
   )[date.getMonth()];
   return {
-    "%%build:version%%": lerna.version,
-    "%%build:date%%": date.getDate() + " " + month + " " + date.getFullYear(),
-    "%%build:year%%,": date.getFullYear() + ",",
+    '%%build:version%%': PKG_JSON.version,
+    '%%build:date%%': date.getDate() + ' ' + month + ' ' + date.getFullYear(),
+    '%%build:year%%,': date.getFullYear() + ',',
   };
 })();
 
-const plugins: Plugin[] = [
-  replace({
-    exclude: "node_modules/**",
-    values: buildVars,
-    preventAssignment: true,
-    // TODO: strip log4javascript (lost this when upgrading @rollup/plugin-replace)
-    // patterns: [
-    //   //remove logging
-    //   {
-    //     test: /(.*log4javascript.*)|(\s*(\/\/\s*)?log\.(trace|debug|info|warn|error|fatal|time|timeEnd|group|groupEnd).+)/g,
+const outputFile = (f: string, isProduction: boolean) => {
+  return isProduction ? f.replace(/\.js$/, '.min.js') : f;
+};
 
-    //     replace: "",
-    //   },
-    // ],
-  }),
-  nodeResolve(),
-  commonjs(),
-  // Resolve source maps to the original source
-  sourceMaps(),
-  terser(),
+const make = (
+  isBrowserBundle: boolean,
+  isProduction: boolean
+): RollupOptions[] => {
+  const formats: ModuleFormat[] = isBrowserBundle ? ['umd'] : ['es', 'cjs'];
+
+  return formats.map((format) => ({
+    plugins: [
+      replace({
+        exclude: 'node_modules/**',
+        values: buildVars,
+        preventAssignment: true,
+        // TODO: strip log4javascript (lost this when upgrading @rollup/plugin-replace)
+        // patterns: [
+        //   //remove logging
+        //   {
+        //     test: /(.*log4javascript.*)|(\s*(\/\/\s*)?log\.(trace|debug|info|warn|error|fatal|time|timeEnd|group|groupEnd).+)/g,
+
+        //     replace: "",
+        //   },
+        // ],
+      }),
+      // TODO: replace log4javascript at build time
+      typescript({
+        // TODO: write types.d.ts ?
+        exclude: 'test/**/*.ts',
+      }),
+      isProduction ? terser() : undefined,
+    ],
+
+    input,
+
+    external: IS_BROWSER_BUNDLE ? LOCAL_EXTERNALS : ALL_MODULES,
+
+    output: {
+      file: outputFile(
+        path.join(OUTPUT_DIR, `index.${format}.js`),
+        isProduction
+      ),
+      format,
+      sourcemap: true,
+      name: LERNA_PACKAGE_NAME,
+      globals,
+      amd: {
+        id: LERNA_PACKAGE_NAME,
+      },
+    },
+  }));
+};
+
+const configs: RollupOptions[] = [
+  ...make(true, false),
+  ...make(false, false),
+  ...make(true, true),
+  ...make(false, true),
 ];
-
-function concatIf<T>(test: boolean, a: T[], b: () => T[]) {
-  return test ? a.concat(b()) : a;
-}
-
-function outputFile(f: string, isProd: boolean) {
-  return isProd ? f.replace(/\.js$/, ".min.js") : f;
-}
-
-function configsFor(module: string, isProd: boolean): RollupOptions[] {
-  // const tsconfig = await import(`${srcDir}/${name}/tsconfig.json`);
-  // const outDir = tsconfig.compilerOptions.outDir;
-  const d = resolve(packagesDir, module, "lib");
-  const isRangyModule = module !== "core";
-  // Indicate here external modules you don't wanna include in your bundle
-  const external = isRangyModule ? ["@rangy/core"] : [];
-  return [
-    {
-      input: [`${d}/esm5/index.js`],
-      output: {
-        file: outputFile(`${d}/bundles/index.umd.js`, isProd),
-        format: "umd",
-        name: "rangy",
-        sourcemap: true,
-        extend: isRangyModule,
-        globals: { "@rangy/core": "rangy" },
-      },
-      inlineDynamicImports: true,
-      external,
-      plugins: concatIf(isProd, plugins, () => [terser()]),
-    },
-    {
-      input: [`${d}/esm2015/index.js`],
-      output: {
-        file: outputFile(`${d}/bundles/index.esm.js`, isProd),
-        format: "es",
-        sourcemap: true,
-      },
-      inlineDynamicImports: true,
-      // only bundle tslib, core-js in umd file
-      external: (id) =>
-        [...external, "tslib", "core-js"].includes(id) ||
-        id.startsWith("core-js/"),
-      plugins: concatIf(isProd, plugins, () => [terser()]),
-    },
-  ];
-}
-
-const configs = packages.flatMap((m) => [
-  ...configsFor(m, false),
-  ...configsFor(m, true),
-]);
 
 export default configs;

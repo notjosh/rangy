@@ -1,8 +1,9 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "declarationDir": "lib/types",
-    "outDir": "lib/esm2015"
+    "outDir": "./lib",
+    "declarationDir": "./lib/types",
+    "composite": false
   },
   "references": [{ "path": "../core/src" }],
   "include": ["."]

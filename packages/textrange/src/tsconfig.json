@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "experimentalDecorators": true,
-    "declarationDir": "../lib/types",
-    "outDir": "../lib/esm2015",
+    "outDir": "./",
     "baseUrl": "./",
     "paths": {
       "*": ["types/core.d.ts"]

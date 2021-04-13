@@ -57,7 +57,9 @@
     "build": "run-s build:src build:test",
     "prepublishOnly": "run-s tsc:scripts clean build",
     "watch": "run-p -l watch:*",
-    "test": "echo 'pls browse test/*.html for testing'"
+    "test": "echo 'pls browse test/*.html for testing'",
+    "tsc:types": "TODO: tsc -b type declarations",
+    "build-all": "lerna exec -- rollup -c=../../scripts/rollup.config.js"
   },
   "main": "./bundles/index.umd.js",
   "module": "./esm5/index.js",
@@ -71,6 +73,7 @@
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.4.2",
+    "@rollup/plugin-typescript": "^8.2.1",
     "@types/glob": "^7.1.1",
     "@types/qunit": "^2.5.4",
     "bowser": "^2.3.0",
