@@ -40,10 +40,10 @@ import nextNode from "./internal/util/next-node";
 import previousNode from "./internal/util/previous-node";
 
 export type CharacterRangeInfo = {
-  characterOptions: CharacterOptions;
+  characterOptions?: CharacterOptions;
   characterRange: {
-    start: unknown;
-    end: unknown;
+    start: number;
+    end: number;
   };
   backward: boolean;
 };
