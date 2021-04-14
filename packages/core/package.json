@@ -43,10 +43,9 @@
     "lib",
     "src"
   ],
-  "main": "lib/bundles/index.umd.js",
-  "module": "lib/esm5/index.js",
-  "es2015": "lib/esm2015/index.js",
-  "typings": "lib/types/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "typings": "dist/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "tsc -b ."

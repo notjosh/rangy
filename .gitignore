@@ -12,7 +12,6 @@ node_modules
 /packages/test-util/*.js
 /packages/test-util/*.d.ts
 !/packages/test-util/typings.d.ts
-/packages/*/lib/
-!/packages/*/lib/types/types.d.ts
 /packages/*/dist/
+!/packages/*/dist/types.d.ts
 yarn-error.log
