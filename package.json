@@ -40,7 +40,6 @@
   "scripts": {
     "tsc:scripts": "tsc -b scripts/tsconfig.json",
     "watch:scripts": "tsc -b scripts/tsconfig.json --watch --pretty",
-    "clean": "node scripts/clean.js",
     "tsc:es2018": "tsc -b",
     "watch:tsc_es2018": "tsc -b --watch --pretty",
     "tsc:es5": "npm-run-all tsc:es5:*",
@@ -59,12 +58,10 @@
     "watch": "run-p -l watch:*",
     "test": "echo 'pls browse test/*.html for testing'",
     "tsc:types": "TODO: tsc -b type declarations",
-    "build-all": "lerna exec --no-private -- rollup -c=../../scripts/rollup.config.js"
+    "build-all": "lerna exec --no-private -- yarn build",
+    "package-all": "lerna exec --no-private -- yarn package",
+    "clean-all": "lerna exec --no-private -- yarn clean"
   },
-  "main": "./bundles/index.umd.js",
-  "module": "./esm5/index.js",
-  "es2015": "./esm2015/index.js",
-  "typings": "./types/index.d.ts",
   "dependencies": {
     "core-js": "^3.0.1",
     "tslib": "^2.2.0"
@@ -83,6 +80,7 @@
     "npm-run-all": "^4.1.5",
     "qunit": "^2.9.2",
     "requirejs": "^2.3.6",
+    "rimraf": "^3.0.2",
     "rollup": "^2.45.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-delete": "^2.0.0",

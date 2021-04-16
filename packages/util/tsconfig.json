@@ -1,9 +1,7 @@
 {
   "extends": "../tsconfig.package.json",
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "outDir": "./dist",
+    "outDir": "./dist/build",
     "declarationDir": "./dist/types",
     "baseUrl": "./",
     "paths": {

@@ -1,14 +1,12 @@
 {
   "extends": "../tsconfig.package.json",
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./dist/build",
     "declarationDir": "./dist/types",
     "baseUrl": "./",
     "composite": true,
-    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+    "tsBuildInfoFile": "./build/.tsbuildinfo"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "test"]

@@ -40,10 +40,11 @@
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
-  "typings": "dist/types.d.ts",
+  "typings": "dist/types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublishOnly": "tsc -b ."
+    "clean": "rimraf dist",
+    "build": "tsc -b ."
   },
   "dependencies": {
     "@rangy/core": "^2.1.0",

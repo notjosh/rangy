@@ -5,7 +5,7 @@ import {
   util,
   WrappedRange,
   WrappedSelection,
-} from "@rangy/core";
+} from '@rangy/core';
 import {
   CHARACTER,
   defaultCaretCharacterOptions,
@@ -16,28 +16,28 @@ import {
   FindOptions,
   WORD,
   WordIteratorOptions,
-} from "./internal/constants";
-import log from "./internal/log";
-import Position from "./internal/position";
+} from './internal/constants';
+import log from './internal/log';
+import Position from './internal/position';
 import Session, {
   createEntryPointFunction,
   getSession,
-} from "./internal/session";
+} from './internal/session';
 import createNestedOptions, {
   CharacterOptions,
   defaultCharacterOptions,
-} from "./internal/util/create-nested-options";
-import createRangeBoundaryMover from "./internal/util/create-range-boundary-mover";
-import createRangeTrimmer from "./internal/util/create-range-trimmer";
-import createSelectionTrimmer from "./internal/util/create-selection-trimmer";
-import createTokenizedTextProvider from "./internal/util/create-tokenized-text-provider";
-import { Token } from "./internal/util/default-tokenizer";
-import findTextFromPosition from "./internal/util/find-text-from-position";
-import getRangeCharacters from "./internal/util/get-range-characters";
-import isBlockNode from "./internal/util/is-block-node";
-import isCollapsedWhitespaceNode from "./internal/util/is-collapsed-whitespace-node";
-import nextNode from "./internal/util/next-node";
-import previousNode from "./internal/util/previous-node";
+} from './internal/util/create-nested-options';
+import createRangeBoundaryMover from './internal/util/create-range-boundary-mover';
+import createRangeTrimmer from './internal/util/create-range-trimmer';
+import createSelectionTrimmer from './internal/util/create-selection-trimmer';
+import createTokenizedTextProvider from './internal/util/create-tokenized-text-provider';
+import { Token } from './internal/util/default-tokenizer';
+import findTextFromPosition from './internal/util/find-text-from-position';
+import getRangeCharacters from './internal/util/get-range-characters';
+import isBlockNode from './internal/util/is-block-node';
+import isCollapsedWhitespaceNode from './internal/util/is-collapsed-whitespace-node';
+import nextNode from './internal/util/next-node';
+import previousNode from './internal/util/previous-node';
 
 export type CharacterRangeInfo = {
   characterOptions?: CharacterOptions;
@@ -55,7 +55,7 @@ export const innerText = (el: Node, characterOptions: CharacterOptions) => {
   log.debug(
     "innerText is '" +
       text.replace(/\s/g, function (matched) {
-        return "[" + matched.charCodeAt(0) + "]";
+        return '[' + matched.charCodeAt(0) + ']';
       }) +
       "'"
   );
@@ -180,15 +180,15 @@ WrappedRange.prototype.text = createEntryPointFunction(function (
   const self = this as WrappedRange;
 
   log.info(
-    "text. Transaction: " + session + ", characterOptions:",
+    'text. Transaction: ' + session + ', characterOptions:',
     characterOptions
   );
   return self.collapsed
-    ? ""
+    ? ''
     : getRangeCharacters(session, self, {
         ...defaultCharacterOptions,
         ...characterOptions,
-      }).join("");
+      }).join('');
 });
 
 WrappedRange.prototype.selectCharacters = createEntryPointFunction(function (
@@ -205,9 +205,9 @@ WrappedRange.prototype.selectCharacters = createEntryPointFunction(function (
   }
   self.selectNodeContents(containerNode);
   self.collapse(true);
-  self.moveStart("character", startIndex, moveOptions);
+  self.moveStart('character', startIndex, moveOptions);
   self.collapse(true);
-  self.moveEnd("character", endIndex - startIndex, moveOptions);
+  self.moveEnd('character', endIndex - startIndex, moveOptions);
 });
 
 // Character indexes are relative to the start of node
@@ -285,7 +285,7 @@ WrappedRange.prototype.findText = createEntryPointFunction(function (
   // Examine and prepare the search term
   var searchTerm = searchTermParam,
     isRegex = false;
-  if (typeof searchTerm == "string") {
+  if (typeof searchTerm == 'string') {
     if (!findOptions.caseSensitive) {
       searchTerm = searchTerm.toLowerCase();
     }
@@ -345,7 +345,7 @@ WrappedRange.prototype.findText = createEntryPointFunction(function (
         backward
       );
       log.debug(
-        "Wrapping search. New search range is " + searchScopeRange.inspect()
+        'Wrapping search. New search range is ' + searchScopeRange.inspect()
       );
       wrappedAround = true;
     } else {
@@ -396,16 +396,16 @@ WrappedSelection.prototype.move = createEntryPointFunction(function (
       ...options.characterOptions,
     };
     unitsMoved = range.move(unit, count, options);
-    log.debug("Selection move setting range " + range.inspect());
+    log.debug('Selection move setting range ' + range.inspect());
     self.setSingleRange(range);
-    log.debug("Selection now " + self.inspect());
+    log.debug('Selection now ' + self.inspect());
   }
   return unitsMoved;
 });
 
-WrappedSelection.prototype.trimStart = createSelectionTrimmer("trimStart");
-WrappedSelection.prototype.trimEnd = createSelectionTrimmer("trimEnd");
-WrappedSelection.prototype.trim = createSelectionTrimmer("trim");
+WrappedSelection.prototype.trimStart = createSelectionTrimmer('trimStart');
+WrappedSelection.prototype.trimEnd = createSelectionTrimmer('trimEnd');
+WrappedSelection.prototype.trim = createSelectionTrimmer('trim');
 
 WrappedSelection.prototype.selectCharacters = createEntryPointFunction(
   function (
@@ -481,7 +481,7 @@ WrappedSelection.prototype.restoreCharacterRanges = createEntryPointFunction(
         characterRange.end,
         rangeInfo.characterOptions
       );
-      log.info("New selected range: " + range.inspect());
+      log.info('New selected range: ' + range.inspect());
       self.addRange(range, rangeInfo.backward);
     }
   }
@@ -496,5 +496,5 @@ WrappedSelection.prototype.text = createEntryPointFunction(function (
   for (var i = 0, len = self.rangeCount; i < len; ++i) {
     rangeTexts[i] = (self.getRangeAt(i) as WrappedRange).text(characterOptions);
   }
-  return rangeTexts.join("");
+  return rangeTexts.join('');
 });

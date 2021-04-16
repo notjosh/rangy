@@ -34,21 +34,17 @@
     "type": "git",
     "url": "https://github.com/ohze/rangy.git"
   },
-  "directories": {
-    "src": "src",
-    "lib": "lib",
-    "test": "test"
-  },
   "files": [
-    "lib",
-    "src"
+    "dist"
   ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
-  "typings": "dist/types.d.ts",
+  "typings": "dist/types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublishOnly": "tsc -b ."
+    "clean": "rimraf dist",
+    "build": "tsc -b .",
+    "package": "yarn rollup -c ../../scripts/rollup.config.js"
   },
   "dependencies": {
     "core-js": "^3.0.1",

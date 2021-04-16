@@ -3,11 +3,13 @@
   "compilerOptions": {
     "rootDir": "./",
     "declaration": true,
-    "declarationMap": true,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "composite": false
   }
 }
