@@ -1,28 +1,19 @@
+import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import strip from '@rollup/plugin-strip';
 import path from 'path';
 import { ModuleFormat, RollupOptions } from 'rollup';
-import copy from 'rollup-plugin-copy';
+import replace from 'rollup-plugin-re';
 import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
 import { packages } from './util';
-import del from 'rollup-plugin-delete';
 
 const { LERNA_PACKAGE_NAME, LERNA_ROOT_PATH } = process.env;
 const PACKAGE_ROOT_PATH = process.cwd();
-const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, 'build', 'index.js');
-// const INPUT_TEST_FILE = path.join(PACKAGE_ROOT_PATH, 'index.ts');
+const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, 'dist', 'build', 'index.js');
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
-// const UNNAMESPACED_PACKAGE_NAME = LERNA_PACKAGE_NAME.split('/').pop();
 
 const ALL_MODULES = packages;
-
-console.log('ALL_MODULES', ALL_MODULES);
-console.log({ LERNA_PACKAGE_NAME });
-console.log({ LERNA_ROOT_PATH });
-
-const isTestUtil = LERNA_PACKAGE_NAME === '@rangy/test-util';
 
 const LOCAL_GLOBALS = {
   '@rangy/core': 'rangy',
@@ -30,13 +21,8 @@ const LOCAL_GLOBALS = {
 
 const LOCAL_EXTERNALS = [...Object.keys(LOCAL_GLOBALS)];
 
-console.log({ LOCAL_GLOBALS, LOCAL_EXTERNALS });
-
-// const input = isTestUtil ? INPUT_TEST_FILE : INPUT_FILE;
 const input = INPUT_FILE;
 const globals = LOCAL_GLOBALS;
-
-console.log({ globals });
 
 const buildVars = (() => {
   const date = new Date();
@@ -60,74 +46,47 @@ const make = (
 ): RollupOptions => {
   const formats: ModuleFormat[] = isBrowserBundle ? ['umd'] : ['es', 'cjs'];
 
-  const options = {
+  const options: RollupOptions = {
     plugins: [
+      strip({
+        functions: ['console.*', 'assert.*', 'log.*', 'log4javascript.*'],
+      }),
       replace({
         exclude: 'node_modules/**',
-        values: buildVars,
-        preventAssignment: true,
-        // TODO: strip log4javascript (lost this when upgrading @rollup/plugin-replace)
-        // patterns: [
-        //   //remove logging
-        //   {
-        //     test: /(.*log4javascript.*)|(\s*(\/\/\s*)?log\.(trace|debug|info|warn|error|fatal|time|timeEnd|group|groupEnd).+)/g,
-
-        //     replace: "",
-        //   },
-        // ],
+        replaces: buildVars,
+        defines: {
+          IS_DEVELOPMENT: false,
+        },
+        patterns: [
+          //remove logging
+          {
+            test: /(.*log4javascript.*)/g,
+            replace: '',
+          },
+        ],
       }),
-      // TODO: replace log4javascript at build time
-      // typescript({
-      //   clean: true,
-      //   useTsconfigDeclarationDir: true,
-      //   // check: true,
-      //   // tsconfigOverride: {
-      //   //   compilerOptions: {
-      //   //     rootDir: TYPESCRIPT_ROOT_DIR,
-      //   //   },
-      //   // },
-      //   verbosity: 3,
-      // }),
-
-      // // Because `rootDir` needs to include _all_ packages in Rollup, we have to do a dance here to get the
-      // // types in the correct place, and then remove the other referenced packages here
-      // !isBrowserBundle &&
-      //   copy({
-      //     flatten: false,
-      //     targets: [
-      //       {
-      //         src: `dist/${UNNAMESPACED_PACKAGE_NAME}/src/**/*.d(.ts|.ts.map)`,
-      //         dest: 'dist/types',
-      //         rename: (name: string, extension: string, fullPath: string) => {
-      //           // HACK: we use `flatten: false`, but this means we need to manually drop the "package-name/src"
-      //           // and the only way to do that is, well, this
-      //           const base = fullPath.split('/').slice(3).join('/');
-      //           const dots = Array(fullPath.split('/').length - 2)
-      //             .fill('..')
-      //             .join('/');
-      //           return path.join(dots, base);
-      //         },
-      //         transform: (contents) => {
-      //           // technically not correct, if the mappings matches the string, but in reality not an issue?
-      //           return contents.toString().replace('../../../src', '../../src');
-      //         },
-      //       },
-      //     ],
-      //   }),
-
-      // !isBrowserBundle &&
-      //   del({
-      //     hook: 'writeBundle',
-      //     targets: distDependencyPaths,
-      //   }),
-
-      resolve(),
+      resolve({
+        browser: isBrowserBundle,
+        preferBuiltins: false,
+      }),
+      commonjs(),
       needsMinify ? terser() : undefined,
     ],
 
     input,
+    context: 'window',
 
-    external: isBrowserBundle ? LOCAL_EXTERNALS : ALL_MODULES,
+    // only bundle tslib, core-js in umd file
+    external: isBrowserBundle
+      ? ALL_MODULES
+      : (id) => {
+          return (
+            [...LOCAL_EXTERNALS, 'tslib', 'core-js'].includes(id) ||
+            id.startsWith('core-js/')
+          );
+        },
+
+    inlineDynamicImports: true,
 
     output: formats.map((format) => ({
       file: outputFile(

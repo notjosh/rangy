@@ -1,30 +1,32 @@
-import { Module } from "./module";
-import * as util from "./util";
-import { getBody } from "./util";
-import * as log4javascript from "log4javascript";
+import { Module } from './module';
+import * as util from './util';
+import { getBody } from './util';
+// #if IS_DEVELOPMENT
+import * as log4javascript from 'log4javascript';
+// #endig
 
 export { getBody };
 
-const module = new Module("DomUtil", []);
+const module = new Module('DomUtil', []);
 
 // DOM utility methods used by Rangy
 // /* build:replaceWith(api) */rangy/* build:replaceEnd */.createCoreModule("DomUtil", [], function(api, module) {
-var log = log4javascript.getLogger("rangy.dom");
-var UNDEF = "undefined";
+var log = log4javascript.getLogger('rangy.dom');
+var UNDEF = 'undefined';
 
 // Perform feature tests
 if (
   !util.areHostMethods(document, [
-    "createDocumentFragment",
-    "createElement",
-    "createTextNode",
+    'createDocumentFragment',
+    'createElement',
+    'createTextNode',
   ])
 ) {
-  module.fail("document missing a Node creation method");
+  module.fail('document missing a Node creation method');
 }
 
-if (!util.isHostMethod(document, "getElementsByTagName")) {
-  module.fail("document missing getElementsByTagName method");
+if (!util.isHostMethod(document, 'getElementsByTagName')) {
+  module.fail('document missing getElementsByTagName method');
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -35,7 +37,7 @@ export function isHtmlNamespace(node) {
   return (
     typeof node.namespaceURI == UNDEF ||
     (ns = node.namespaceURI) === null ||
-    ns == "http://www.w3.org/1999/xhtml"
+    ns == 'http://www.w3.org/1999/xhtml'
   );
 }
 
@@ -142,7 +144,7 @@ export function splitDataNode(
   positionsToPreserve?: DomPosition[]
 ) {
   log.debug(
-    "splitDataNode called at index " + index + " in node " + inspectNode(node)
+    'splitDataNode called at index ' + index + ' in node ' + inspectNode(node)
   );
   var newNode = node.cloneNode(false) as CharacterData;
   newNode.deleteData(0, index);
@@ -179,7 +181,7 @@ export function getDocument(node): Document {
   } else if (node.parentNode) {
     return getDocument(node.parentNode);
   } else {
-    throw module.createError("getDocument: no document found for node");
+    throw module.createError('getDocument: no document found for node');
   }
 }
 
@@ -190,7 +192,7 @@ export function getWindow(node: Node): Window {
   } else if (typeof (doc as any).parentWindow != UNDEF) {
     return (doc as any).parentWindow;
   } else {
-    throw module.createError("Cannot get a window object for node");
+    throw module.createError('Cannot get a window object for node');
   }
 }
 
@@ -201,7 +203,7 @@ export function getIframeDocument(iframeEl: HTMLIFrameElement): Document {
     return iframeEl.contentWindow.document;
   } else {
     throw module.createError(
-      "getIframeDocument: No Document object found for iframe element"
+      'getIframeDocument: No Document object found for iframe element'
     );
   }
 }
@@ -213,7 +215,7 @@ export function getIframeWindow(iframeEl) {
     return iframeEl.contentDocument.defaultView;
   } else {
     throw module.createError(
-      "getIframeWindow: No Window object found for iframe element"
+      'getIframeWindow: No Window object found for iframe element'
     );
   }
 }
@@ -222,13 +224,13 @@ export function getIframeWindow(iframeEl) {
 export function isWindow(obj): obj is Window {
   return (
     obj &&
-    util.isHostMethod(obj, "setTimeout") &&
-    util.isHostObject(obj, "document")
+    util.isHostMethod(obj, 'setTimeout') &&
+    util.isHostObject(obj, 'document')
   );
 }
 
 function isIframe(o): o is HTMLIFrameElement {
-  return o.nodeType == 1 && o.tagName.toLowerCase() == "iframe";
+  return o.nodeType == 1 && o.tagName.toLowerCase() == 'iframe';
 }
 export function getContentDocument(
   obj: Window | Node,
@@ -242,7 +244,7 @@ export function getContentDocument(
   }
 
   // Test if a DOM node has been passed and obtain a document object for it if so
-  else if (util.isHostProperty(obj, "nodeType")) {
+  else if (util.isHostProperty(obj, 'nodeType')) {
     doc = isIframe(obj) ? getIframeDocument(obj) : getDocument(obj);
   }
 
@@ -253,7 +255,7 @@ export function getContentDocument(
 
   if (!doc) {
     throw module.createError(
-      methodName + "(): Parameter must be a Window object or DOM node"
+      methodName + '(): Parameter must be a Window object or DOM node'
     );
   }
 
@@ -272,39 +274,39 @@ export function comparePoints(nodeA, offsetA, nodeB, offsetB) {
   // See http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html#Level-2-Range-Comparing
   var nodeC, root, childA, childB, n;
   if (nodeA == nodeB) {
-    log.debug("case 1");
+    log.debug('case 1');
     // Case 1: nodes are the same
     return offsetA === offsetB ? 0 : offsetA < offsetB ? -1 : 1;
   } else if ((nodeC = getClosestAncestorIn(nodeB, nodeA, true))) {
-    log.debug("case 2", inspectNode(nodeC), getNodeIndex(nodeC));
+    log.debug('case 2', inspectNode(nodeC), getNodeIndex(nodeC));
     // Case 2: node C (container B or an ancestor) is a child node of A
     return offsetA <= getNodeIndex(nodeC) ? -1 : 1;
   } else if ((nodeC = getClosestAncestorIn(nodeA, nodeB, true))) {
-    log.debug("case 3");
+    log.debug('case 3');
     // Case 3: node C (container A or an ancestor) is a child node of B
     return getNodeIndex(nodeC) < offsetB ? -1 : 1;
   } else {
     root = getCommonAncestor(nodeA, nodeB);
     if (!root) {
-      throw new Error("comparePoints error: nodes have no common ancestor");
+      throw new Error('comparePoints error: nodes have no common ancestor');
     }
 
     // Case 4: containers are siblings or descendants of siblings
-    log.debug("case 4");
+    log.debug('case 4');
     childA = nodeA === root ? root : getClosestAncestorIn(nodeA, root, true);
     childB = nodeB === root ? root : getClosestAncestorIn(nodeB, root, true);
 
     if (childA === childB) {
       // This shouldn't be possible
       log.warn(
-        "comparePoints got to case 4 and childA and childB are the same!",
+        'comparePoints got to case 4 and childA and childB are the same!',
         nodeA,
         offsetA,
         nodeB,
         offsetB
       );
       throw module.createError(
-        "comparePoints got to case 4 and childA and childB are the same!"
+        'comparePoints got to case 4 and childA and childB are the same!'
       );
     } else {
       n = root.firstChild;
@@ -322,24 +324,24 @@ export function comparePoints(nodeA, offsetA, nodeB, offsetB) {
 
 export function inspectNode(node: Node): string {
   if (!node) {
-    return "[No node]";
+    return '[No node]';
   }
   if (isCharacterDataNode(node)) {
     return '"' + node.data + '"';
   }
   if (node.nodeType == 1) {
-    var idAttr = (node as any).id ? ' id="' + (node as any).id + '"' : "";
+    var idAttr = (node as any).id ? ' id="' + (node as any).id + '"' : '';
     return (
-      "<" +
+      '<' +
       node.nodeName +
       idAttr +
-      ">[index:" +
+      '>[index:' +
       getNodeIndex(node) +
-      ",length:" +
+      ',length:' +
       node.childNodes.length +
-      "][" +
-      ((node as any).innerHTML || "[innerHTML not supported]").slice(0, 25) +
-      "]"
+      '][' +
+      ((node as any).innerHTML || '[innerHTML not supported]').slice(0, 25) +
+      ']'
     );
   }
   return node.nodeName;
@@ -361,17 +363,17 @@ if (typeof window.getComputedStyle != UNDEF) {
   };
 } else if (typeof (document.documentElement as any).currentStyle != UNDEF) {
   _getComputedStyleProperty = function (el, propName) {
-    return el.currentStyle ? el.currentStyle[propName] : "";
+    return el.currentStyle ? el.currentStyle[propName] : '';
   };
 } else {
-  module.fail("No means of obtaining computed style properties found");
+  module.fail('No means of obtaining computed style properties found');
 }
 export const getComputedStyleProperty = _getComputedStyleProperty;
 
 export function createTestElement(doc, html, contentEditable) {
   var body = getBody(doc);
-  var el = doc.createElement("div");
-  el.contentEditable = "" + !!contentEditable;
+  var el = doc.createElement('div');
+  el.contentEditable = '' + !!contentEditable;
   if (html) {
     el.innerHTML = html;
   }
@@ -436,7 +438,7 @@ export class DomPosition {
   }
 
   inspect() {
-    return "[DomPosition(" + inspectNode(this.node) + ":" + this.offset + ")]";
+    return '[DomPosition(' + inspectNode(this.node) + ':' + this.offset + ')]';
   }
 
   toString() {

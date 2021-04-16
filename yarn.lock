@@ -921,15 +921,16 @@
     is-module "^1.0.0"
     resolve "^1.19.0"
 
-"@rollup/plugin-replace@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-2.4.2.tgz#a2d539314fbc77c244858faa523012825068510a"
-  integrity sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==
+"@rollup/plugin-strip@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-strip/-/plugin-strip-2.0.0.tgz#46014ca2bc30bfff4ac289c52d7174671418173d"
+  integrity sha512-1xtE2FDk7Wwr2dEPugkQp3M2FGtSVYeRQaJnHJIkHzcXpBlxT/z+jJoVUvm8LGXso+bLWgO65WrmQ6bC6e/x+A==
   dependencies:
-    "@rollup/pluginutils" "^3.1.0"
-    magic-string "^0.25.7"
+    "@rollup/pluginutils" "^3.0.4"
+    estree-walker "^1.0.1"
+    magic-string "^0.25.5"
 
-"@rollup/pluginutils@^3.0.9", "@rollup/pluginutils@^3.1.0":
+"@rollup/pluginutils@^3.0.4", "@rollup/pluginutils@^3.0.9", "@rollup/pluginutils@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
   integrity sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
@@ -950,6 +951,11 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
+
+"@types/core-js@^2.5.4":
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-2.5.4.tgz#fc42ebde7d9cfa7c5f2668f117449b02348e41fd"
+  integrity sha512-Xwy8o12ak+iYgFr/KCVaVK5Sy+jFMiiPAID3+ObvMlBzy26XQJw5xu+a6rlHsrJENXj/AwJOGsJpVohUjAzSKQ==
 
 "@types/estree@*":
   version "0.0.47"
@@ -1925,6 +1931,11 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+estree-walker@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.6.1.tgz#53049143f40c6eb918b23671d1fe3219f3a1b362"
+  integrity sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==
 
 estree-walker@^1.0.1:
   version "1.0.1"
@@ -3055,7 +3066,14 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-magic-string@^0.25.7:
+magic-string@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.16.0.tgz#970ebb0da7193301285fb1aa650f39bdd81eb45a"
+  integrity sha1-lw67DacZMwEoX7GqZQ85vdgetFo=
+  dependencies:
+    vlq "^0.2.1"
+
+magic-string@^0.25.5, magic-string@^0.25.7:
   version "0.25.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
@@ -4304,6 +4322,14 @@ rollup-plugin-delete@^2.0.0:
   dependencies:
     del "^5.1.0"
 
+rollup-plugin-re@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-re/-/rollup-plugin-re-1.0.7.tgz#fe174704ed59cda84caf02bd013b582e6fdaa4f6"
+  integrity sha1-/hdHBO1ZzahMrwK9ATtYLm/apPY=
+  dependencies:
+    magic-string "^0.16.0"
+    rollup-pluginutils "^2.0.1"
+
 rollup-plugin-sourcemaps@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/rollup-plugin-sourcemaps/-/rollup-plugin-sourcemaps-0.6.3.tgz#bf93913ffe056e414419607f1d02780d7ece84ed"
@@ -4332,6 +4358,13 @@ rollup-plugin-typescript2@^0.30.0:
     fs-extra "8.1.0"
     resolve "1.20.0"
     tslib "2.1.0"
+
+rollup-pluginutils@^2.0.1:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
+  integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
+  dependencies:
+    estree-walker "^0.6.1"
 
 rollup@^2.45.1:
   version "2.45.1"
@@ -5062,6 +5095,11 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vlq@^0.2.1:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vlq/-/vlq-0.2.3.tgz#8f3e4328cf63b1540c0d67e1b2778386f8975b26"
+  integrity sha512-DRibZL6DsNhIgYQ+wNdWDL2SL3bKPlVrRiBqV5yuMm++op8W4kGFtaQfCs4KEJn0wBZcHVHJ3eoywX8983k1ow==
 
 wcwidth@^1.0.0:
   version "1.0.1"

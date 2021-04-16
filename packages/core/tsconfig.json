@@ -6,7 +6,7 @@
     "declarationDir": "./dist/types",
     "baseUrl": "./",
     "composite": true,
-    "tsBuildInfoFile": "./build/.tsbuildinfo"
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "test"]
