@@ -1,15 +1,14 @@
 {
-  "extends": "../../tsconfig.package.json",
+  "extends": "../../tsconfig.test.json",
   "compilerOptions": {
     "rootDir": "./",
-    "outDir": "./dist/build",
-    "declarationDir": "./dist/types",
+    "outDir": ".",
     "baseUrl": "./",
     "paths": {
-      "@rangy/core": ["../core/src"]
+      "@rangy/core": ["../src"]
     }
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "test"],
-  "references": [{ "path": ".." }, { "path": "../../test-util" }]
+  "references": [{ "path": "../" }, { "path": "../../test-util" }]
 }

@@ -41,10 +41,13 @@
   "module": "dist/index.es.js",
   "typings": "dist/types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rimraf dist",
+    "clean": "run-p -l clean:*",
+    "clean:src": "rimraf dist",
+    "clean:test": "rimraf test/*.js",
     "build": "tsc -b .",
-    "package": "yarn rollup -c ../../scripts/rollup.config.js"
+    "package": "yarn rollup -c ../../scripts/rollup.config.js",
+    "build:test": "tsc -b ./test/tsconfig.json",
+    "package:test": "yarn rollup -c ../../scripts/rollup.config.test.js"
   },
   "dependencies": {
     "@rangy/core": "^2.1.0",

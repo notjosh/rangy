@@ -1,6 +1,6 @@
 import * as rangy from '@rangy/core';
 import { DomRange, RangyRange, DOMException, WrappedRange } from '@rangy/core';
-import '@rangy/test-util/qunit-ex';
+import '@rangy/test-util';
 
 var hasNativeDomRange = 'createRange' in document;
 

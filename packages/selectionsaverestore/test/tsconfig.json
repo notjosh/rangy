@@ -1,8 +1,20 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.test.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": ".",
+    "baseUrl": "./",
+    "paths": {
+      "@rangy/core": ["../../core/src"],
+      "@rangy/selectionsaverestore": ["../src"],
+      "@rangy/test-util": ["../../test-util/src"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "test"],
   "references": [
-    { "path": "../src" },
-    { "path": "../../core/src" },
+    { "path": "../" },
+    { "path": "../../core" },
     { "path": "../../test-util" }
   ]
 }

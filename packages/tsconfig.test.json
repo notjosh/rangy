@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.package.json",
+  "compilerOptions": {
+    "composite": false,
+    "resolveJsonModule": false,
+    "declaration": false,
+    "sourceMap": false
+  }
+}

@@ -13,13 +13,16 @@ const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, 'dist', 'build', 'index.js');
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
 
+const isTestUtil = LERNA_PACKAGE_NAME === '@rangy/test-util';
+
 const ALL_MODULES = packages;
 
 const LOCAL_GLOBALS = {
   '@rangy/core': 'rangy',
+  ...(isTestUtil ? { qunit: 'qunit' } : {}),
 };
 
-const LOCAL_EXTERNALS = [...Object.keys(LOCAL_GLOBALS)];
+const LOCAL_EXTERNALS = Object.keys(LOCAL_GLOBALS);
 
 const input = INPUT_FILE;
 const globals = LOCAL_GLOBALS;
@@ -39,6 +42,8 @@ const buildVars = (() => {
 const outputFile = (f: string, isProduction: boolean) => {
   return isProduction ? f.replace(/\.js$/, '.min.js') : f;
 };
+
+const browserExternals = [...ALL_MODULES, ...(isTestUtil ? ['qunit'] : [])];
 
 const make = (
   isBrowserBundle: boolean,
@@ -78,7 +83,7 @@ const make = (
 
     // only bundle tslib, core-js in umd file
     external: isBrowserBundle
-      ? ALL_MODULES
+      ? browserExternals
       : (id) => {
           return (
             [...LOCAL_EXTERNALS, 'tslib', 'core-js'].includes(id) ||
