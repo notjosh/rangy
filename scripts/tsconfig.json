@@ -3,10 +3,7 @@
     "target": "es2018",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": [
-      "es2018",
-      "esnext.array"
-    ],
+    "lib": ["es2018", "esnext.array"],
     "types": ["node"],
     "sourceMap": true,
     "importHelpers": true,

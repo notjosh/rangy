@@ -1,7 +1,7 @@
-import { RangeBase, util } from "@rangy/core";
-import NodeWrapper from "./nodewrapper";
-import Position from "./position";
-import ValueCache from "./valuecache";
+import { RangeBase, util } from '@rangy/core';
+import NodeWrapper from './nodewrapper';
+import Position from './position';
+import ValueCache from './valuecache';
 
 function createWrapperCache(nodeProperty: string) {
   var cache = new ValueCache();
@@ -36,7 +36,7 @@ type WrapperCache = ReturnType<typeof createWrapperCache>;
 class Session {
   static uniqueIDSupported = util.isHostProperty(
     document.documentElement,
-    "uniqueID"
+    'uniqueID'
   );
 
   private elementCache: WrapperCache = Session.uniqueIDSupported
@@ -53,11 +53,11 @@ class Session {
           },
         };
       })()
-    : createWrapperCache("tagName");
+    : createWrapperCache('tagName');
 
   // Store text nodes keyed by data, although we may need to truncate this
-  private textNodeCache: WrapperCache = createWrapperCache("data");
-  private otherNodeCache: WrapperCache = createWrapperCache("nodeName");
+  private textNodeCache: WrapperCache = createWrapperCache('data');
+  private otherNodeCache: WrapperCache = createWrapperCache('nodeName');
 
   getNodeWrapper(node: Node): NodeWrapper {
     let wrapperCache: WrapperCache;
@@ -86,10 +86,10 @@ class Session {
   }
 
   getRangeBoundaryPosition(range: RangeBase, isStart: boolean): Position {
-    var prefix = isStart ? "start" : "end";
+    var prefix = isStart ? 'start' : 'end';
     return this.getPosition(
-      range[prefix + "Container"],
-      range[prefix + "Offset"]
+      range[prefix + 'Container'],
+      range[prefix + 'Offset']
     );
   }
 

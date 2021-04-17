@@ -26,4 +26,4 @@ export {
   WrappedRange,
   WrappedSelection,
   WrappedSelection as Selection, //alias
-} from "./_";
+} from './_';

@@ -1,4 +1,4 @@
-import getComputedDisplay from "./get-computed-display";
+import getComputedDisplay from './get-computed-display';
 
 function isIgnoredNode(node: Node, win?: Window) {
   return (
@@ -6,7 +6,7 @@ function isIgnoredNode(node: Node, win?: Window) {
       Node.PROCESSING_INSTRUCTION_NODE /* PROCESSING_INSTRUCTION */ ||
     node.nodeType == Node.COMMENT_NODE /* COMMENT */ ||
     (node.nodeType == Node.ELEMENT_NODE &&
-      getComputedDisplay(node as Element, win) == "none")
+      getComputedDisplay(node as Element, win) == 'none')
   );
 }
 

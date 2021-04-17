@@ -1,6 +1,6 @@
-import isCollapsedWhitespaceNode from "./is-collapsed-whitespace-node";
-import isHidden from "./is-hidden";
-import isVisibilityHiddenTextNode from "./is-visibility-hidden-text-node";
+import isCollapsedWhitespaceNode from './is-collapsed-whitespace-node';
+import isHidden from './is-hidden';
+import isVisibilityHiddenTextNode from './is-visibility-hidden-text-node';
 
 function isCollapsedNode(node: Node): boolean {
   const type = node.nodeType;

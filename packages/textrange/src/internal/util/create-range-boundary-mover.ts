@@ -1,10 +1,10 @@
-import { WrappedRange } from "@rangy/core";
-import { CHARACTER } from "../constants";
-import log from "../log";
-import Session, { createEntryPointFunction } from "../session";
-import createNestedOptions, { CharacterOptions } from "./create-nested-options";
-import { WordOptions } from "./create-word-options";
-import movePositionBy from "./move-position-by";
+import { WrappedRange } from '@rangy/core';
+import { CHARACTER } from '../constants';
+import log from '../log';
+import Session, { createEntryPointFunction } from '../session';
+import createNestedOptions, { CharacterOptions } from './create-nested-options';
+import { WordOptions } from './create-word-options';
+import movePositionBy from './move-position-by';
 
 const defaultMoveOptions = {
   wordOptions: null,
@@ -39,11 +39,11 @@ function createRangeBoundaryMover(isStart: boolean, collapse: boolean) {
     // }
     moveOptions = createNestedOptions(moveOptions, defaultMoveOptions);
     log.debug(
-      "** moving boundary. start: " +
+      '** moving boundary. start: ' +
         isStart +
-        ", unit: " +
+        ', unit: ' +
         unit +
-        ", count: " +
+        ', count: ' +
         count
     );
 
@@ -60,8 +60,8 @@ function createRangeBoundaryMover(isStart: boolean, collapse: boolean) {
       moveOptions.wordOptions
     );
     var newPos = moveResult.position;
-    self[boundaryIsStart ? "setStart" : "setEnd"](newPos.node, newPos.offset);
-    log.debug("*** MOVED " + moveResult.unitsMoved, newPos.inspect());
+    self[boundaryIsStart ? 'setStart' : 'setEnd'](newPos.node, newPos.offset);
+    log.debug('*** MOVED ' + moveResult.unitsMoved, newPos.inspect());
     return moveResult.unitsMoved;
   });
 }

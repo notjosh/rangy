@@ -1,12 +1,12 @@
 // Provides a pair of iterators over text positions, tokenized. Transparently requests more text when next()
 
-import { allWhiteSpaceRegex } from "../constants";
-import log from "../log";
-import Position from "../position";
-import createCharacterIterator from "./create-character-iterator";
-import { CharacterOptions } from "./create-nested-options";
-import { WordOptions } from "./create-word-options";
-import tokenize from "./tokenize";
+import { allWhiteSpaceRegex } from '../constants';
+import log from '../log';
+import Position from '../position';
+import createCharacterIterator from './create-character-iterator';
+import { CharacterOptions } from './create-nested-options';
+import { WordOptions } from './create-word-options';
+import tokenize from './tokenize';
 
 var arrayIndexOf = Array.prototype.indexOf
   ? function (arr: any[], val: any) {
@@ -43,7 +43,7 @@ function createTokenizedTextProvider(
 
   // Consumes a word and the whitespace beyond it
   function consumeWord(forward: boolean) {
-    log.debug("consumeWord called, forward is " + forward);
+    log.debug('consumeWord called, forward is ' + forward);
     let pos: Position, textChar: string;
     let newChars: Position[] = [],
       it = forward ? forwardIterator : backwardIterator;
@@ -63,7 +63,7 @@ function createTokenizedTextProvider(
         }
       } else {
         log.debug(
-          "Got non-whitespace, passedWordBoundary is " + passedWordBoundary
+          'Got non-whitespace, passedWordBoundary is ' + passedWordBoundary
         );
         if (passedWordBoundary) {
           it.rewind();
@@ -76,10 +76,10 @@ function createTokenizedTextProvider(
     }
 
     log.debug(
-      "consumeWord done, pos is " + (pos ? pos.inspect() : "non-existent")
+      'consumeWord done, pos is ' + (pos ? pos.inspect() : 'non-existent')
     );
 
-    log.debug("consumeWord got new chars " + newChars.join(""));
+    log.debug('consumeWord got new chars ' + newChars.join(''));
     return newChars;
   }
 
@@ -102,20 +102,20 @@ function createTokenizedTextProvider(
     : [];
 
   function inspectBuffer(buffer) {
-    var textPositions = ["[" + buffer.length + "]"];
+    var textPositions = ['[' + buffer.length + ']'];
     for (var i = 0; i < buffer.length; ++i) {
       textPositions.push(
-        "(word: " + buffer[i] + ", is word: " + buffer[i].isWord + ")"
+        '(word: ' + buffer[i] + ', is word: ' + buffer[i].isWord + ')'
       );
     }
     return textPositions;
   }
 
   log.info(
-    "Initial word: ",
-    inspectBuffer(forwardTokensBuffer) + "",
-    " and ",
-    inspectBuffer(backwardTokensBuffer) + "",
+    'Initial word: ',
+    inspectBuffer(forwardTokensBuffer) + '',
+    ' and ',
+    inspectBuffer(backwardTokensBuffer) + '',
     forwardChars,
     backwardChars
   );

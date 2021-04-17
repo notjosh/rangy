@@ -1,4 +1,4 @@
-import { Token, TokenChar, TokenRange } from "./default-tokenizer";
+import { Token, TokenChar, TokenRange } from './default-tokenizer';
 
 function convertCharRangeToToken(
   chars: TokenChar[],
@@ -9,7 +9,7 @@ function convertCharRangeToToken(
     isWord: tokenRange.isWord,
     chars: tokenChars,
     toString: function () {
-      return tokenChars.join("");
+      return tokenChars.join('');
     },
   };
   for (var i = 0, len = tokenChars.length; i < len; ++i) {

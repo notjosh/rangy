@@ -1,6 +1,6 @@
-import { WrappedRange } from "@rangy/core";
-import Session from "../session";
-import createCharacterIterator from "./create-character-iterator";
+import { WrappedRange } from '@rangy/core';
+import Session from '../session';
+import createCharacterIterator from './create-character-iterator';
 
 function createRangeCharacterIterator(
   session: Session,

@@ -1,6 +1,6 @@
-import convertCharRangeToToken from "./convert-char-range-to-token";
-import { WordOptions } from "./create-word-options";
-import { Token, TokenChar, TokenRange } from "./default-tokenizer";
+import convertCharRangeToToken from './convert-char-range-to-token';
+import { WordOptions } from './create-word-options';
+import { Token, TokenChar, TokenRange } from './default-tokenizer';
 
 type TokenizerFunc = (
   chars: TokenChar[],

@@ -1,13 +1,13 @@
 // Adpated from Aryeh's code.
 // "node is a collapsed whitespace node if the following algorithm returns
 
-import isHidden from "./is-hidden";
-import isWhitespaceNode from "./is-whitespace-node";
+import isHidden from './is-hidden';
+import isWhitespaceNode from './is-whitespace-node';
 
 // true:"
 function isCollapsedWhitespaceNode(node: Node): boolean {
   // "If node's data is the empty string, return true."
-  if ((node as Text).data === "") {
+  if ((node as Text).data === '') {
     return true;
   }
 

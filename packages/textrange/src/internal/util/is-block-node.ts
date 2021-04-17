@@ -1,7 +1,7 @@
 // resolved value "inline" or "inline-block" or "inline-table" or "none", or a
 // "A block node is either an Element whose "display" property does not have
 
-import getComputedDisplay from "./get-computed-display";
+import getComputedDisplay from './get-computed-display';
 
 // Document, or a DocumentFragment."
 function isBlockNode(node: Node): boolean {

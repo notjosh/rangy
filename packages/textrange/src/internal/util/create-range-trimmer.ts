@@ -1,11 +1,11 @@
-import { WrappedRange } from "@rangy/core";
-import { allWhiteSpaceRegex } from "../constants";
-import Session, { createEntryPointFunction } from "../session";
+import { WrappedRange } from '@rangy/core';
+import { allWhiteSpaceRegex } from '../constants';
+import Session, { createEntryPointFunction } from '../session';
 import {
   CharacterOptions,
   defaultCharacterOptions,
-} from "./create-nested-options";
-import createRangeCharacterIterator from "./create-range-character-iterator";
+} from './create-nested-options';
+import createRangeCharacterIterator from './create-range-character-iterator';
 
 function createRangeTrimmer(isStart: boolean) {
   return createEntryPointFunction(function (
@@ -32,8 +32,8 @@ function createRangeTrimmer(isStart: boolean) {
     it.dispose();
     var trimmed = trimCharCount > 0;
     if (trimmed) {
-      self[isStart ? "moveStart" : "moveEnd"](
-        "character",
+      self[isStart ? 'moveStart' : 'moveEnd'](
+        'character',
         isStart ? trimCharCount : -trimCharCount,
         { characterOptions: characterOptionsFilled }
       );

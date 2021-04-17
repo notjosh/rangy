@@ -1,19 +1,24 @@
 const globalCache = new WeakMap();
 
 export default function Memoize() {
-  return (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
+  return (
+    target: any,
+    propertyName: string,
+    descriptor: TypedPropertyDescriptor<any>
+  ) => {
     if (descriptor.value != null) {
       descriptor.value = getNewFunction(descriptor.value);
     } else if (descriptor.get != null) {
       descriptor.get = getNewFunction(descriptor.get);
     } else {
-      throw new Error('Only put a Memoize decorator on a method or get accessor.');
+      throw new Error(
+        'Only put a Memoize decorator on a method or get accessor.'
+      );
     }
   };
 }
 
 class MixedMap {
-
   map: Map<any, any> = new Map();
   weakMap: WeakMap<any, any> = new WeakMap();
 
@@ -40,7 +45,6 @@ class MixedMap {
   private getCorrespondingMap(key: any) {
     return key instanceof Object ? this.weakMap : this.map;
   }
-
 }
 
 function getNewFunction(originalFunction: (...params: any[]) => void) {
@@ -52,11 +56,15 @@ function getNewFunction(originalFunction: (...params: any[]) => void) {
   };
 }
 
-function cache<V>(wm: MixedMap | WeakMap<any, any>, key: any, createValue: () => V) {
+function cache<V>(
+  wm: MixedMap | WeakMap<any, any>,
+  key: any,
+  createValue: () => V
+) {
   let value: V;
 
   if (!wm.has(key)) {
-    wm.set(key, value = createValue());
+    wm.set(key, (value = createValue()));
   } else {
     value = wm.get(key);
   }

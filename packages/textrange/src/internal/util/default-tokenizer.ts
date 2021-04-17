@@ -1,6 +1,6 @@
-import { nonLineBreakWhiteSpaceRegex } from "../constants";
-import Position from "../position";
-import { WordOptions } from "./create-word-options";
+import { nonLineBreakWhiteSpaceRegex } from '../constants';
+import Position from '../position';
+import { WordOptions } from './create-word-options';
 
 export type Token = {
   isWord: boolean;
@@ -21,7 +21,7 @@ function defaultTokenizer(
   chars: TokenChar[],
   wordOptions: WordOptions
 ): TokenRange[] {
-  var word = chars.join(""),
+  var word = chars.join(''),
     result: RegExpExecArray,
     tokenRanges: TokenRange[] = [];
 

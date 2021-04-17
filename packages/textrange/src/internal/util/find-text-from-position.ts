@@ -1,8 +1,8 @@
-import { Selection } from "@rangy/core";
-import log from "../log";
-import Position from "../position";
-import createCharacterIterator from "./create-character-iterator";
-import isWholeWord from "./is-whole-word";
+import { Selection } from '@rangy/core';
+import log from '../log';
+import Position from '../position';
+import createCharacterIterator from './create-character-iterator';
+import isWholeWord from './is-whole-word';
 
 function findTextFromPosition(
   initialPos,
@@ -12,11 +12,11 @@ function findTextFromPosition(
   findOptions
 ) {
   log.debug(
-    "findTextFromPosition called with search term " +
+    'findTextFromPosition called with search term ' +
       searchTerm +
-      ", initialPos " +
+      ', initialPos ' +
       initialPos.inspect() +
-      " within range " +
+      ' within range ' +
       searchScopeRange.inspect()
   );
   var backward = Selection.isDirectionBackward(findOptions.direction);
@@ -26,7 +26,7 @@ function findTextFromPosition(
     initialPos.session.getRangeBoundaryPosition(searchScopeRange, backward),
     findOptions.characterOptions
   );
-  var text = "",
+  var text = '',
     chars: Position[] = [],
     pos: Position,
     currentChar: string,
@@ -90,7 +90,7 @@ function findTextFromPosition(
     }
     log.debug(
       text.replace(/\s/g, function (m) {
-        return "[" + m.charCodeAt(0) + "]";
+        return '[' + m.charCodeAt(0) + ']';
       }),
       matchStartIndex
     );

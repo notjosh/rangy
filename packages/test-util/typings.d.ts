@@ -1,4 +1,4 @@
-import "qunit";
+import 'qunit';
 
 declare global {
   interface Assert {
@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-declare module "bowser" {
+declare module 'bowser' {
   namespace Parser {
     interface Parser {
       isEngine(engineName: string): boolean;
@@ -31,4 +31,4 @@ declare module "bowser" {
   }
 }
 
-export * from "./index";
+export * from './index';

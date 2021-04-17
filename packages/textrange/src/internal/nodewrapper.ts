@@ -1,18 +1,18 @@
-import { dom } from "@rangy/core";
-import { spacesMinusLineBreaksRegex, spacesRegex } from "./constants";
-import log from "./log";
-import Position from "./position";
-import Session from "./session";
-import containsPositions from "./util/contains-positions";
-import getComputedDisplay from "./util/get-computed-display";
-import isCollapsedNode from "./util/is-collapsed-node";
-import isCollapsedWhitespaceNode from "./util/is-collapsed-whitespace-node";
-import isIgnoredNode from "./util/is-ignored-node";
-import isWhitespaceNode from "./util/is-whitespace-node";
+import { dom } from '@rangy/core';
+import { spacesMinusLineBreaksRegex, spacesRegex } from './constants';
+import log from './log';
+import Position from './position';
+import Session from './session';
+import containsPositions from './util/contains-positions';
+import getComputedDisplay from './util/get-computed-display';
+import isCollapsedNode from './util/is-collapsed-node';
+import isCollapsedWhitespaceNode from './util/is-collapsed-whitespace-node';
+import isIgnoredNode from './util/is-ignored-node';
+import isWhitespaceNode from './util/is-whitespace-node';
 import Memoize from './util/memoize-decorator';
-import nextNode from "./util/next-node";
-import previousNode from "./util/previous-node";
-import ValueCache from "./valuecache";
+import nextNode from './util/next-node';
+import previousNode from './util/previous-node';
+import ValueCache from './valuecache';
 
 type TextNodeInfo = {
   node: Text;
@@ -35,7 +35,7 @@ class NodeWrapper {
   }
 
   toString() {
-    return "[NodeWrapper(" + dom.inspectNode(this.node) + ")]";
+    return '[NodeWrapper(' + dom.inspectNode(this.node) + ')]';
   }
 
   @Memoize()
@@ -109,18 +109,18 @@ class NodeWrapper {
 
     const textNode = this.node as Text;
 
-    log.debug("getTextNodeInfo for " + textNode.data);
+    log.debug('getTextNodeInfo for ' + textNode.data);
     var spaceRegex = null,
       collapseSpaces = false;
     var cssWhitespace = dom.getComputedStyleProperty(
       textNode.parentNode,
-      "whiteSpace"
+      'whiteSpace'
     );
-    var preLine = cssWhitespace == "pre-line";
+    var preLine = cssWhitespace == 'pre-line';
     if (preLine) {
       spaceRegex = spacesMinusLineBreaksRegex;
       collapseSpaces = true;
-    } else if (cssWhitespace == "normal" || cssWhitespace == "nowrap") {
+    } else if (cssWhitespace == 'normal' || cssWhitespace == 'nowrap') {
       spaceRegex = spacesRegex;
       collapseSpaces = true;
     }
@@ -209,7 +209,7 @@ class NodeWrapper {
     const el = this.node as Element;
 
     // Ensure that a block element containing a <br> is considered to have inner text
-    var brs = el.getElementsByTagName("br");
+    var brs = el.getElementsByTagName('br');
     for (var i = 0, len = brs.length; i < len; ++i) {
       if (!isCollapsedNode(brs[i])) {
         return true;
@@ -228,51 +228,51 @@ class NodeWrapper {
 
     const el = this.node as Element;
 
-    if (el.tagName.toLowerCase() == "br") {
-      return "";
+    if (el.tagName.toLowerCase() == 'br') {
+      return '';
     } else {
       switch (this.getComputedDisplay()) {
-        case "inline":
+        case 'inline':
           var child = el.lastChild;
           while (child) {
             if (!isIgnoredNode(child)) {
               return child.nodeType == Node.ELEMENT_NODE
                 ? this.session.getNodeWrapper(child).getTrailingSpace()
-                : "";
+                : '';
             }
             child = child.previousSibling;
           }
           break;
-        case "inline-block":
-        case "inline-table":
-        case "none":
-        case "table-column":
-        case "table-column-group":
+        case 'inline-block':
+        case 'inline-table':
+        case 'none':
+        case 'table-column':
+        case 'table-column-group':
           break;
-        case "table-cell":
-          return "\t";
+        case 'table-cell':
+          return '\t';
         default:
-          return this.isRenderedBlock() ? "\n" : "";
+          return this.isRenderedBlock() ? '\n' : '';
       }
     }
-    return "";
+    return '';
   }
 
   @Memoize()
   getLeadingSpace(): string {
     switch (this.getComputedDisplay()) {
-      case "inline":
-      case "inline-block":
-      case "inline-table":
-      case "none":
-      case "table-column":
-      case "table-column-group":
-      case "table-cell":
+      case 'inline':
+      case 'inline-block':
+      case 'inline-table':
+      case 'none':
+      case 'table-column':
+      case 'table-column-group':
+      case 'table-cell':
         break;
       default:
-        return this.isRenderedBlock() ? "\n" : "";
+        return this.isRenderedBlock() ? '\n' : '';
     }
-    return "";
+    return '';
   }
 }
 

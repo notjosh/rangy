@@ -1,4 +1,4 @@
-import nextNodeDescendants from "./next-node-descendants";
+import nextNodeDescendants from './next-node-descendants';
 
 function nextNode(node: Node, excludeChildren: boolean = false): Node | null {
   if (!excludeChildren && node.hasChildNodes()) {

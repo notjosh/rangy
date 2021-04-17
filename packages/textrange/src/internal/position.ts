@@ -1,26 +1,26 @@
-import { dom } from "@rangy/core";
-import log from "./log";
-import NodeWrapper from "./nodewrapper";
-import Session from "./session";
-import { CharacterOptions } from "./util/create-nested-options";
-import { Token } from "./util/default-tokenizer";
-import isCollapsedNode from "./util/is-collapsed-node";
+import { dom } from '@rangy/core';
+import log from './log';
+import NodeWrapper from './nodewrapper';
+import Session from './session';
+import { CharacterOptions } from './util/create-nested-options';
+import { Token } from './util/default-tokenizer';
+import isCollapsedNode from './util/is-collapsed-node';
 import Memoize from './util/memoize-decorator';
-import normalizeIgnoredCharacters from "./util/normalize-ignored-characters";
-import ValueCache from "./valuecache";
+import normalizeIgnoredCharacters from './util/normalize-ignored-characters';
+import ValueCache from './valuecache';
 
-const EMPTY = "EMPTY",
-  NON_SPACE = "NON_SPACE",
-  UNCOLLAPSIBLE_SPACE = "UNCOLLAPSIBLE_SPACE",
-  COLLAPSIBLE_SPACE = "COLLAPSIBLE_SPACE",
-  TRAILING_SPACE_BEFORE_BLOCK = "TRAILING_SPACE_BEFORE_BLOCK",
-  TRAILING_SPACE_IN_BLOCK = "TRAILING_SPACE_IN_BLOCK",
-  TRAILING_SPACE_BEFORE_BR = "TRAILING_SPACE_BEFORE_BR",
+const EMPTY = 'EMPTY',
+  NON_SPACE = 'NON_SPACE',
+  UNCOLLAPSIBLE_SPACE = 'UNCOLLAPSIBLE_SPACE',
+  COLLAPSIBLE_SPACE = 'COLLAPSIBLE_SPACE',
+  TRAILING_SPACE_BEFORE_BLOCK = 'TRAILING_SPACE_BEFORE_BLOCK',
+  TRAILING_SPACE_IN_BLOCK = 'TRAILING_SPACE_IN_BLOCK',
+  TRAILING_SPACE_BEFORE_BR = 'TRAILING_SPACE_BEFORE_BR',
   PRE_LINE_TRAILING_SPACE_BEFORE_LINE_BREAK =
-    "PRE_LINE_TRAILING_SPACE_BEFORE_LINE_BREAK",
-  TRAILING_LINE_BREAK_AFTER_BR = "TRAILING_LINE_BREAK_AFTER_BR",
+    'PRE_LINE_TRAILING_SPACE_BEFORE_LINE_BREAK',
+  TRAILING_LINE_BREAK_AFTER_BR = 'TRAILING_LINE_BREAK_AFTER_BR',
   INCLUDED_TRAILING_LINE_BREAK_AFTER_BR =
-    "INCLUDED_TRAILING_LINE_BREAK_AFTER_BR";
+    'INCLUDED_TRAILING_LINE_BREAK_AFTER_BR';
 
 class Position {
   node: Node;
@@ -34,10 +34,10 @@ class Position {
   }
 
   inspect() {
-    return "[Position(" + dom.inspectNode(this.node) + ":" + this.offset + ")]";
+    return '[Position(' + dom.inspectNode(this.node) + ':' + this.offset + ')]';
   }
 
-  character = "";
+  character = '';
   private characterType = EMPTY;
   private isBr = false;
 
@@ -60,8 +60,8 @@ class Position {
     if (!pos.prepopulatedChar) {
       var node = pos.node,
         offset = pos.offset;
-      log.debug("prepopulateChar " + pos.inspect());
-      var visibleChar = "",
+      log.debug('prepopulateChar ' + pos.inspect());
+      var visibleChar = '',
         charType = EMPTY;
       var finalizedChar = false;
       if (offset > 0) {
@@ -81,30 +81,30 @@ class Position {
               // line break, because such spaces are collapsed in some browsers
               if (offset > 1 && spaceRegex.test(text.charAt(offset - 2))) {
                 log.debug(
-                  "Character is a collapsible space preceded by another collapsible space, therefore empty"
+                  'Character is a collapsible space preceded by another collapsible space, therefore empty'
                 );
-              } else if (nodeInfo.preLine && text.charAt(offset) === "\n") {
+              } else if (nodeInfo.preLine && text.charAt(offset) === '\n') {
                 log.debug(
-                  "Character is a collapsible space which is followed by a line break in a pre-line element, skipping"
+                  'Character is a collapsible space which is followed by a line break in a pre-line element, skipping'
                 );
-                visibleChar = " ";
+                visibleChar = ' ';
                 charType = PRE_LINE_TRAILING_SPACE_BEFORE_LINE_BREAK;
               } else {
                 log.debug(
-                  "Character is a collapsible space not preceded by another collapsible space, including but will need to check for whether it precedes a <br> or end of a block"
+                  'Character is a collapsible space not preceded by another collapsible space, including but will need to check for whether it precedes a <br> or end of a block'
                 );
-                visibleChar = " ";
+                visibleChar = ' ';
                 //pos.checkForFollowingLineBreak = true;
                 charType = COLLAPSIBLE_SPACE;
               }
             } else {
-              log.debug("Character is not a space, adding");
+              log.debug('Character is not a space, adding');
               visibleChar = textChar;
               charType = NON_SPACE;
               finalizedChar = true;
             }
           } else {
-            log.debug("Spaces are not collapsible, so adding");
+            log.debug('Spaces are not collapsible, so adding');
             visibleChar = textChar;
             charType = UNCOLLAPSIBLE_SPACE;
             finalizedChar = true;
@@ -116,17 +116,17 @@ class Position {
             nodePassed.nodeType == Node.ELEMENT_NODE &&
             !isCollapsedNode(nodePassed)
           ) {
-            if ((nodePassed as Element).tagName.toLowerCase() == "br") {
-              log.debug("Node is br");
-              visibleChar = "\n";
+            if ((nodePassed as Element).tagName.toLowerCase() == 'br') {
+              log.debug('Node is br');
+              visibleChar = '\n';
               pos.isBr = true;
               charType = COLLAPSIBLE_SPACE;
               finalizedChar = false;
             } else {
               log.debug(
-                "Unresolved trailing space for node " +
+                'Unresolved trailing space for node ' +
                   dom.inspectNode(nodePassed) +
-                  ". Will resolve this later if necessary."
+                  '. Will resolve this later if necessary.'
               );
               pos.checkForTrailingSpace = true;
             }
@@ -142,9 +142,9 @@ class Position {
               !isCollapsedNode(nextNode)
             ) {
               log.debug(
-                "Unresolved leading space for node " +
+                'Unresolved leading space for node ' +
                   dom.inspectNode(nextNode) +
-                  ". Will resolve this later if necessary."
+                  '. Will resolve this later if necessary.'
               );
               pos.checkForLeadingSpace = true;
             }
@@ -177,7 +177,7 @@ class Position {
         .getNodeWrapper(this.node.childNodes[this.offset - 1])
         .getTrailingSpace();
       log.debug(
-        "resolveLeadingAndTrailingSpaces checking for trailing space on " +
+        'resolveLeadingAndTrailingSpaces checking for trailing space on ' +
           this.inspect() +
           ", got '" +
           trailingSpace +
@@ -196,7 +196,7 @@ class Position {
         .getNodeWrapper(this.node.childNodes[this.offset])
         .getLeadingSpace();
       log.debug(
-        "resolveLeadingAndTrailingSpaces checking for leading space on " +
+        'resolveLeadingAndTrailingSpaces checking for leading space on ' +
           this.inspect() +
           ", got '" +
           leadingSpace +
@@ -212,12 +212,12 @@ class Position {
   }
 
   getPrecedingUncollapsedPosition(characterOptions): Position | null {
-    log.group("getPrecedingUncollapsedPosition " + this.inspect());
+    log.group('getPrecedingUncollapsedPosition ' + this.inspect());
     let pos: Position = this,
       character: string;
     while ((pos = pos.previousVisible())) {
       character = pos.getCharacter(characterOptions);
-      if (character !== "") {
+      if (character !== '') {
         log.groupEnd();
         return pos;
       }
@@ -228,7 +228,7 @@ class Position {
   }
 
   getCharacter(characterOptions: CharacterOptions): string {
-    log.group("getCharacter called on " + this.inspect());
+    log.group('getCharacter called on ' + this.inspect());
     this.resolveLeadingAndTrailingSpaces();
 
     var thisChar = this.character,
@@ -239,14 +239,14 @@ class Position {
       characterOptions.ignoreCharacters
     );
     const isIgnoredCharacter =
-      thisChar !== "" && ignoredChars.indexOf(thisChar) > -1;
+      thisChar !== '' && ignoredChars.indexOf(thisChar) > -1;
 
     // Check if this position's  character is invariant (i.e. not dependent on character options) and return it
     // if so
     if (this.isCharInvariant) {
-      returnChar = isIgnoredCharacter ? "" : thisChar;
+      returnChar = isIgnoredCharacter ? '' : thisChar;
       log.debug(
-        "Character is invariant. isIgnored: " +
+        'Character is invariant. isIgnored: ' +
           isIgnoredCharacter +
           ". Returning '" +
           returnChar +
@@ -257,12 +257,12 @@ class Position {
     }
 
     var cacheKey = [
-      "character",
+      'character',
       characterOptions.includeSpaceBeforeBr,
       characterOptions.includeBlockContentTrailingSpace,
       characterOptions.includePreLineTrailingSpace,
       ignoredChars,
-    ].join("_");
+    ].join('_');
     var cachedChar = this.cache.get(cacheKey);
     if (cachedChar !== null) {
       log.debug(
@@ -277,11 +277,11 @@ class Position {
     }
 
     // We need to actually get the character now
-    let character = "";
+    let character = '';
     const collapsible = this.characterType == COLLAPSIBLE_SPACE;
     log.info(
       "getCharacter initial character is '" + thisChar + "'",
-      collapsible ? "collapsible" : ""
+      collapsible ? 'collapsible' : ''
     );
 
     let nextPos: Position, previousPos: Position;
@@ -301,66 +301,66 @@ class Position {
       // Allow a trailing space that we've previously determined should be included
       if (this.type == INCLUDED_TRAILING_LINE_BREAK_AFTER_BR) {
         log.debug(
-          "Trailing space following a br not preceded by a leading line break is included."
+          'Trailing space following a br not preceded by a leading line break is included.'
         );
-        character = "\n";
+        character = '\n';
       }
       // Disallow a collapsible space that follows a trailing space or line break, or is the first character,
       // or follows a collapsible included space
       else if (
-        thisChar == " " &&
+        thisChar == ' ' &&
         (!getPreviousPos() ||
           previousPos.isTrailingSpace ||
-          previousPos.character == "\n" ||
-          (previousPos.character == " " &&
+          previousPos.character == '\n' ||
+          (previousPos.character == ' ' &&
             previousPos.characterType == COLLAPSIBLE_SPACE))
       ) {
         log.info(
-          "Current possible character is a collapsible space and preceding character either non-existent, a trailing space, follows a line break or a collapsible space, so current space is collapsed"
+          'Current possible character is a collapsible space and preceding character either non-existent, a trailing space, follows a line break or a collapsible space, so current space is collapsed'
         );
       }
       // Allow a leading line break unless it follows a line break
-      else if (thisChar == "\n" && this.isLeadingSpace) {
-        if (getPreviousPos() && previousPos.character != "\n") {
-          character = "\n";
-          log.info("Character is a leading line break and is being included");
+      else if (thisChar == '\n' && this.isLeadingSpace) {
+        if (getPreviousPos() && previousPos.character != '\n') {
+          character = '\n';
+          log.info('Character is a leading line break and is being included');
         } else {
           log.info(
-            "Character is a leading line break and preceding character is a line break or non-existent, so leading line break is excluded"
+            'Character is a leading line break and preceding character is a line break or non-existent, so leading line break is excluded'
           );
         }
       } else {
         nextPos = this.nextUncollapsed();
-        log.debug("nextPos: " + (nextPos ? nextPos.inspect() : "non-existent"));
+        log.debug('nextPos: ' + (nextPos ? nextPos.inspect() : 'non-existent'));
         if (nextPos) {
           if (nextPos.isBr) {
             this.type = TRAILING_SPACE_BEFORE_BR;
-          } else if (nextPos.isTrailingSpace && nextPos.character == "\n") {
+          } else if (nextPos.isTrailingSpace && nextPos.character == '\n') {
             this.type = TRAILING_SPACE_IN_BLOCK;
-          } else if (nextPos.isLeadingSpace && nextPos.character == "\n") {
+          } else if (nextPos.isLeadingSpace && nextPos.character == '\n') {
             this.type = TRAILING_SPACE_BEFORE_BLOCK;
           }
 
           log.debug(
-            "nextPos.isLeadingSpace: " +
+            'nextPos.isLeadingSpace: ' +
               nextPos.isLeadingSpace +
-              ", this type: " +
+              ', this type: ' +
               this.type
           );
-          if (nextPos.character == "\n") {
+          if (nextPos.character == '\n') {
             if (
               this.type == TRAILING_SPACE_BEFORE_BR &&
               !characterOptions.includeSpaceBeforeBr
             ) {
               log.debug(
-                "Character is a space which is followed by a br. Policy from options is to collapse."
+                'Character is a space which is followed by a br. Policy from options is to collapse.'
               );
             } else if (
               this.type == TRAILING_SPACE_BEFORE_BLOCK &&
               !characterOptions.includeSpaceBeforeBlock
             ) {
               log.debug(
-                "Character is a space which is followed by a block. Policy from options is to collapse."
+                'Character is a space which is followed by a block. Policy from options is to collapse.'
               );
             } else if (
               this.type == TRAILING_SPACE_IN_BLOCK &&
@@ -368,7 +368,7 @@ class Position {
               !characterOptions.includeBlockContentTrailingSpace
             ) {
               log.debug(
-                "Character is a space which is the final character in a block. Policy from options is to collapse."
+                'Character is a space which is the final character in a block. Policy from options is to collapse.'
               );
             } else if (
               this.type == PRE_LINE_TRAILING_SPACE_BEFORE_LINE_BREAK &&
@@ -376,21 +376,21 @@ class Position {
               !characterOptions.includePreLineTrailingSpace
             ) {
               log.debug(
-                "Character is a space which is followed by a line break in a pre-line element. Policy from options is to collapse."
+                'Character is a space which is followed by a line break in a pre-line element. Policy from options is to collapse.'
               );
-            } else if (thisChar == "\n") {
+            } else if (thisChar == '\n') {
               if (nextPos.isTrailingSpace) {
                 if (this.isTrailingSpace) {
                   log.debug(
-                    "Trailing line break preceding another trailing line break is excluded."
+                    'Trailing line break preceding another trailing line break is excluded.'
                   );
                 } else if (this.isBr) {
                   log.debug(
-                    "Trailing line break (type " +
+                    'Trailing line break (type ' +
                       nextPos.type +
-                      ", characterType " +
+                      ', characterType ' +
                       nextPos.characterType +
-                      ") following a br is excluded but br may be included."
+                      ') following a br is excluded but br may be included.'
                   );
                   nextPos.type = TRAILING_LINE_BREAK_AFTER_BR;
 
@@ -398,15 +398,15 @@ class Position {
                     getPreviousPos() &&
                     previousPos.isLeadingSpace &&
                     !previousPos.isTrailingSpace &&
-                    previousPos.character == "\n"
+                    previousPos.character == '\n'
                   ) {
                     log.debug(
-                      "Trailing space following a br following a leading line break is excluded."
+                      'Trailing space following a br following a leading line break is excluded.'
                     );
-                    nextPos.character = "";
+                    nextPos.character = '';
                   } else {
                     log.debug(
-                      "Trailing space following a br not preceded by a leading line break will be included " +
+                      'Trailing space following a br not preceded by a leading line break will be included ' +
                         nextPos.inspect()
                     );
                     nextPos.type = INCLUDED_TRAILING_LINE_BREAK_AFTER_BR;
@@ -414,39 +414,39 @@ class Position {
                 }
               } else {
                 log.debug(
-                  "Collapsible line break followed by a non-trailing line break is being included."
+                  'Collapsible line break followed by a non-trailing line break is being included.'
                 );
-                character = "\n";
+                character = '\n';
               }
-            } else if (thisChar == " ") {
+            } else if (thisChar == ' ') {
               log.debug(
-                "Collapsible space followed by a line break is being included."
+                'Collapsible space followed by a line break is being included.'
               );
-              character = " ";
+              character = ' ';
             } else {
               log.debug(
-                "Collapsible space (" +
+                'Collapsible space (' +
                   this.inspect() +
-                  ") that is neither space nor line break and is followed by a line break is being excluded."
+                  ') that is neither space nor line break and is followed by a line break is being excluded.'
               );
             }
           } else {
             log.debug(
-              "Character is a collapsible space or line break that has not been disallowed"
+              'Character is a collapsible space or line break that has not been disallowed'
             );
             character = thisChar;
           }
         } else {
           log.debug(
-            "Character is a space which is followed by nothing, so collapsing"
+            'Character is a space which is followed by nothing, so collapsing'
           );
         }
       }
     }
 
     if (ignoredChars.indexOf(character) > -1) {
-      log.debug("Character " + character + " is ignored in character options");
-      character = "";
+      log.debug('Character ' + character + ' is ignored in character options');
+      character = '';
     }
 
     log.debug("getCharacter got '" + character + "' for pos " + this.inspect());
@@ -562,11 +562,11 @@ class Position {
   @Memoize()
   nextUncollapsed(): Position | null {
     const pos: Position = this;
-    log.group("nextUncollapsed " + this.inspect());
+    log.group('nextUncollapsed ' + this.inspect());
     var nextPos = pos;
     while ((nextPos = nextPos.nextVisible())) {
       nextPos.resolveLeadingAndTrailingSpaces();
-      if (nextPos.character !== "") {
+      if (nextPos.character !== '') {
         log.groupEnd();
         return nextPos;
       }

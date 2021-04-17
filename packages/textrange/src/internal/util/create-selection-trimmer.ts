@@ -1,6 +1,6 @@
-import { WrappedSelection } from "@rangy/core";
-import Session, { createEntryPointFunction } from "../session";
-import { CharacterOptions } from "./create-nested-options";
+import { WrappedSelection } from '@rangy/core';
+import Session, { createEntryPointFunction } from '../session';
+import { CharacterOptions } from './create-nested-options';
 
 function createSelectionTrimmer(methodName: string) {
   return createEntryPointFunction(function (

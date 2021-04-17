@@ -1,9 +1,9 @@
-import { CharacterRangeInfo } from "../";
-import { ExpandOptions, FindOptions } from "../internal/constants";
-import { CharacterOptions } from "../internal/util/create-nested-options";
-import { MoveOptions } from "../internal/util/create-range-boundary-mover";
+import { CharacterRangeInfo } from '../';
+import { ExpandOptions, FindOptions } from '../internal/constants';
+import { CharacterOptions } from '../internal/util/create-nested-options';
+import { MoveOptions } from '../internal/util/create-range-boundary-mover';
 
-declare module "@rangy/core" {
+declare module '@rangy/core' {
   interface WrappedRange {
     moveStart: (
       unit: string,
@@ -42,7 +42,7 @@ declare module "@rangy/core" {
   }
 }
 
-declare module "@rangy/core" {
+declare module '@rangy/core' {
   interface WrappedSelection {
     expand: (unit: string, expandOptions: Partial<ExpandOptions>) => void;
     move: (

@@ -1,4 +1,4 @@
-import createWordOptions, { WordOptions } from "./create-word-options";
+import createWordOptions, { WordOptions } from './create-word-options';
 
 export type CharacterOptions = {
   includeBlockContentTrailingSpace: boolean;
@@ -13,7 +13,7 @@ export const defaultCharacterOptions: CharacterOptions = {
   includeSpaceBeforeBr: true,
   includeSpaceBeforeBlock: true,
   includePreLineTrailingSpace: true,
-  ignoreCharacters: "",
+  ignoreCharacters: '',
 };
 
 function createNestedOptions(

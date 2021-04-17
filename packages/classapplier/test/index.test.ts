@@ -1,15 +1,15 @@
-import "@rangy/test-util";
-import "@rangy/test-util/typings";
+import '@rangy/test-util';
+import '@rangy/test-util/typings';
 
-import { ClassApplier, createClassApplier } from "@rangy/classapplier";
-import * as rangy from "@rangy/core";
+import { ClassApplier, createClassApplier } from '@rangy/classapplier';
+import * as rangy from '@rangy/core';
 
-QUnit.module("Class Applier module tests");
+QUnit.module('Class Applier module tests');
 
-QUnit.test("Editable tests", (t) => {
+QUnit.test('Editable tests', (t) => {
   const util = ClassApplier.util;
 
-  var testDiv = document.getElementById("qunit-fixture");
+  var testDiv = document.getElementById('qunit-fixture');
   testDiv.innerHTML =
     '<div>One<div contenteditable="true">Two<span contenteditable="false">three</span></div></div>';
 
@@ -44,15 +44,15 @@ QUnit.test("Editable tests", (t) => {
   t.notOk(util.isEditable(nonEditableText));
 });
 
-QUnit.test("isAppliedToRange tests", function (t) {
-  var applier = createClassApplier("test");
+QUnit.test('isAppliedToRange tests', function (t) {
+  var applier = createClassApplier('test');
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML =
     'Test <span id="one" class="test">One</span> x <span id="two" class="test">Two <span id="three">Three</span> two</span> test';
-  var oneEl = document.getElementById("one"),
-    twoEl = document.getElementById("two"),
-    threeEl = document.getElementById("three");
+  var oneEl = document.getElementById('one'),
+    twoEl = document.getElementById('two'),
+    threeEl = document.getElementById('three');
   var range = rangy.createRangyRange();
 
   range.selectNode(oneEl);
@@ -87,105 +87,105 @@ QUnit.test("isAppliedToRange tests", function (t) {
   t.notOk(applier.isAppliedToRange(range));
 });
 
-QUnit.test("toggleRange simple test 1", function (t) {
-  var applier = createClassApplier("test", true);
-  var testEl: any = document.getElementById("qunit-fixture");
+QUnit.test('toggleRange simple test 1', function (t) {
+  var applier = createClassApplier('test', true);
+  var testEl: any = document.getElementById('qunit-fixture');
   testEl.innerHTML = 'Test <span id="one" class="test">One</span> test';
-  var oneEl = document.getElementById("one");
+  var oneEl = document.getElementById('one');
   var range = rangy.createRangyRange();
   range.selectNodeContents(oneEl);
   applier.toggleRange(range);
 
   t.equal(testEl.childNodes.length, 3);
-  t.equal(testEl.firstChild.data, "Test ");
-  t.equal(testEl.lastChild.data, " test");
-  t.equal(testEl.childNodes[1].tagName, "SPAN");
-  t.equal(testEl.childNodes[1].id, "one");
-  t.equal(testEl.childNodes[1].className, "");
+  t.equal(testEl.firstChild.data, 'Test ');
+  t.equal(testEl.lastChild.data, ' test');
+  t.equal(testEl.childNodes[1].tagName, 'SPAN');
+  t.equal(testEl.childNodes[1].id, 'one');
+  t.equal(testEl.childNodes[1].className, '');
   t.equal(testEl.childNodes[1].childNodes.length, 1);
-  t.equal(testEl.childNodes[1].firstChild.data, "One");
+  t.equal(testEl.childNodes[1].firstChild.data, 'One');
 
   applier.toggleRange(range);
   t.equal(testEl.childNodes.length, 3);
-  t.equal(testEl.firstChild.data, "Test ");
-  t.equal(testEl.lastChild.data, " test");
-  t.equal(testEl.childNodes[1].tagName, "SPAN");
-  t.equal(testEl.childNodes[1].id, "one");
-  t.equal(testEl.childNodes[1].className, "test");
+  t.equal(testEl.firstChild.data, 'Test ');
+  t.equal(testEl.lastChild.data, ' test');
+  t.equal(testEl.childNodes[1].tagName, 'SPAN');
+  t.equal(testEl.childNodes[1].id, 'one');
+  t.equal(testEl.childNodes[1].className, 'test');
   t.equal(testEl.childNodes[1].childNodes.length, 1);
-  t.equal(testEl.childNodes[1].firstChild.data, "One");
+  t.equal(testEl.childNodes[1].firstChild.data, 'One');
 });
 
-QUnit.test("toggleRange simple test 2", function (t) {
-  var applier = createClassApplier("test", true);
-  var testEl: any = document.getElementById("qunit-fixture");
+QUnit.test('toggleRange simple test 2', function (t) {
+  var applier = createClassApplier('test', true);
+  var testEl: any = document.getElementById('qunit-fixture');
   testEl.innerHTML = 'Test <span id="one" class="test other">One</span> test';
-  var oneEl = document.getElementById("one");
+  var oneEl = document.getElementById('one');
   var range = rangy.createRangyRange();
   range.selectNodeContents(oneEl);
   applier.toggleRange(range);
 
   t.equal(testEl.childNodes.length, 3);
-  t.equal(testEl.firstChild.data, "Test ");
-  t.equal(testEl.lastChild.data, " test");
-  t.equal(testEl.childNodes[1].tagName, "SPAN");
-  t.equal(testEl.childNodes[1].id, "one");
-  t.equal(testEl.childNodes[1].className, "other");
+  t.equal(testEl.firstChild.data, 'Test ');
+  t.equal(testEl.lastChild.data, ' test');
+  t.equal(testEl.childNodes[1].tagName, 'SPAN');
+  t.equal(testEl.childNodes[1].id, 'one');
+  t.equal(testEl.childNodes[1].className, 'other');
   t.equal(testEl.childNodes[1].childNodes.length, 1);
-  t.equal(testEl.childNodes[1].firstChild.data, "One");
+  t.equal(testEl.childNodes[1].firstChild.data, 'One');
 
   applier.toggleRange(range);
   t.equal(testEl.childNodes.length, 3);
-  t.equal(testEl.firstChild.data, "Test ");
-  t.equal(testEl.lastChild.data, " test");
-  t.equal(testEl.childNodes[1].tagName, "SPAN");
-  t.equal(testEl.childNodes[1].id, "one");
-  t.equal(testEl.childNodes[1].className, "other test");
+  t.equal(testEl.firstChild.data, 'Test ');
+  t.equal(testEl.lastChild.data, ' test');
+  t.equal(testEl.childNodes[1].tagName, 'SPAN');
+  t.equal(testEl.childNodes[1].id, 'one');
+  t.equal(testEl.childNodes[1].className, 'other test');
   t.equal(testEl.childNodes[1].childNodes.length, 1);
-  t.equal(testEl.childNodes[1].firstChild.data, "One");
+  t.equal(testEl.childNodes[1].firstChild.data, 'One');
 });
 
-QUnit.test("toggleRange nested in other class test", function (t) {
-  var applier = createClassApplier("test", true);
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('toggleRange nested in other class test', function (t) {
+  var applier = createClassApplier('test', true);
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML = 'Before <span id="one" class="other">One</span> after';
-  var oneEl: any = document.getElementById("one");
+  var oneEl: any = document.getElementById('one');
   var range = rangy.createRangyRange();
   range.setStart(oneEl.firstChild, 1);
   range.setEnd(oneEl.firstChild, 2);
   applier.toggleRange(range);
 
   t.equal(oneEl.childNodes.length, 3);
-  t.equal(oneEl.className, "other");
-  t.equal(oneEl.firstChild.data, "O");
-  t.equal(oneEl.lastChild.data, "e");
-  t.equal(oneEl.childNodes[1].tagName, "SPAN");
-  t.equal(oneEl.childNodes[1].className, "test");
+  t.equal(oneEl.className, 'other');
+  t.equal(oneEl.firstChild.data, 'O');
+  t.equal(oneEl.lastChild.data, 'e');
+  t.equal(oneEl.childNodes[1].tagName, 'SPAN');
+  t.equal(oneEl.childNodes[1].className, 'test');
   t.equal(oneEl.childNodes[1].childNodes.length, 1);
-  t.equal(oneEl.childNodes[1].firstChild.data, "n");
+  t.equal(oneEl.childNodes[1].firstChild.data, 'n');
 
   //t.equal(testEl.innerHTML, 'Before <span id="one" class="other">O<span class="test">n</span>e</span> after');
 });
 
-QUnit.test("toggleRange range inside class test", function (t) {
-  var applier = createClassApplier("test", true);
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('toggleRange range inside class test', function (t) {
+  var applier = createClassApplier('test', true);
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML = 'Before <span id="one" class="test">One</span> after';
-  var oneEl: any = document.getElementById("one");
+  var oneEl: any = document.getElementById('one');
   var range = rangy.createRangyRange();
   range.setStart(oneEl.firstChild, 1);
   range.setEnd(oneEl.firstChild, 2);
   applier.toggleRange(range);
 
   t.equal(oneEl.childNodes.length, 1);
-  t.equal(oneEl.className, "test");
-  t.equal(oneEl.firstChild.data, "O");
+  t.equal(oneEl.className, 'test');
+  t.equal(oneEl.firstChild.data, 'O');
   //alert(testEl.innerHTML);
-  t.equal(oneEl.nextSibling.data, "n");
-  t.equal(oneEl.nextSibling.nextSibling.tagName, "SPAN");
-  t.equal(oneEl.nextSibling.nextSibling.className, "test");
+  t.equal(oneEl.nextSibling.data, 'n');
+  t.equal(oneEl.nextSibling.nextSibling.tagName, 'SPAN');
+  t.equal(oneEl.nextSibling.nextSibling.className, 'test');
   t.equal(oneEl.nextSibling.nextSibling.childNodes.length, 1);
-  t.equal(oneEl.nextSibling.nextSibling.firstChild.data, "e");
+  t.equal(oneEl.nextSibling.nextSibling.firstChild.data, 'e');
 
   //t.equal(testEl.innerHTML, 'Before <span id="one" class="test">O</span>n<span class="test">e</span> after');
 });
@@ -227,7 +227,7 @@ function createRangeInHtml(containerEl: Element, html: string) {
     containerEl,
     function (node) {
       if (node.nodeType == 3) {
-        var openBracketIndex = node.data.indexOf("[");
+        var openBracketIndex = node.data.indexOf('[');
         if (openBracketIndex != -1) {
           node.data =
             node.data.slice(0, openBracketIndex) +
@@ -236,24 +236,24 @@ function createRangeInHtml(containerEl: Element, html: string) {
           foundStart = true;
         }
 
-        var pipeIndex = node.data.indexOf("|");
+        var pipeIndex = node.data.indexOf('|');
         if (pipeIndex == 0) {
           node.data = node.data.slice(1);
-          rangeInfo[foundStart ? "setEnd" : "setStart"](
+          rangeInfo[foundStart ? 'setEnd' : 'setStart'](
             node.parentNode,
             rangy.dom.getNodeIndex(node)
           );
           foundStart = true;
         } else if (pipeIndex == node.length - 1) {
           node.data = node.data.slice(0, -1);
-          rangeInfo[foundStart ? "setEnd" : "setStart"](
+          rangeInfo[foundStart ? 'setEnd' : 'setStart'](
             node.parentNode,
             rangy.dom.getNodeIndex(node) + 1
           );
           foundStart = true;
         }
 
-        var closeBracketIndex = node.data.indexOf("]");
+        var closeBracketIndex = node.data.indexOf(']');
         if (closeBracketIndex != -1) {
           node.data =
             node.data.slice(0, closeBracketIndex) +
@@ -261,7 +261,7 @@ function createRangeInHtml(containerEl: Element, html: string) {
           rangeInfo.setEnd(node, closeBracketIndex);
         }
 
-        pipeIndex = node.data.indexOf("|");
+        pipeIndex = node.data.indexOf('|');
         if (pipeIndex == 0) {
           node.data = node.data.slice(1);
           rangeInfo.setEnd(node.parentNode, rangy.dom.getNodeIndex(node));
@@ -286,9 +286,9 @@ function createRangeInHtml(containerEl: Element, html: string) {
 }
 
 function getSortedClassName(el) {
-  var classNameSupported = typeof el.className == "string";
-  var elClass = classNameSupported ? el.className : el.getAttribute("class");
-  return elClass ? elClass.split(/\s+/).sort().join(" ") : "";
+  var classNameSupported = typeof el.className == 'string';
+  var elClass = classNameSupported ? el.className : el.getAttribute('class');
+  return elClass ? elClass.split(/\s+/).sort().join(' ') : '';
 }
 
 function canHaveChildren(el) {
@@ -299,14 +299,14 @@ function canHaveChildren(el) {
 
 function htmlAndRangeToString(containerEl, range) {
   function isElementRangeBoundary(el, offset, range, isStart) {
-    var prefix = isStart ? "start" : "end";
+    var prefix = isStart ? 'start' : 'end';
     return (
-      el == range[prefix + "Container"] && offset == range[prefix + "Offset"]
+      el == range[prefix + 'Container'] && offset == range[prefix + 'Offset']
     );
   }
 
   function getHtml(node, includeSelf) {
-    var html = "",
+    var html = '',
       i,
       len,
       attr,
@@ -314,7 +314,7 @@ function htmlAndRangeToString(containerEl, range) {
     if (node.nodeType == 1) {
       var nodeCanHaveChildren = canHaveChildren(node);
       if (includeSelf) {
-        html = "<" + node.tagName.toLowerCase();
+        html = '<' + node.tagName.toLowerCase();
         if (node.id) {
           html += ' id="' + node.id + '"';
         }
@@ -331,10 +331,10 @@ function htmlAndRangeToString(containerEl, range) {
             alert(i);
           }
           if (attr.specified && !/^(id|href|class|style)$/.test(attr.name)) {
-            html += " " + attr.name + '="' + node.getAttribute(attr.name) + '"';
+            html += ' ' + attr.name + '="' + node.getAttribute(attr.name) + '"';
           }
         }
-        html += !nodeCanHaveChildren ? " />" : ">";
+        html += !nodeCanHaveChildren ? ' />' : '>';
       }
 
       for (
@@ -343,10 +343,10 @@ function htmlAndRangeToString(containerEl, range) {
         ++i
       ) {
         if (isElementRangeBoundary(node, i, range, true)) {
-          html += "|";
+          html += '|';
         }
         if (isElementRangeBoundary(node, i, range, false)) {
-          html += "|";
+          html += '|';
         }
         if (i != len) {
           html += getHtml(children[i], true);
@@ -354,18 +354,18 @@ function htmlAndRangeToString(containerEl, range) {
       }
 
       if (includeSelf && nodeCanHaveChildren) {
-        html += "</" + node.tagName.toLowerCase() + ">";
+        html += '</' + node.tagName.toLowerCase() + '>';
       }
     } else if (includeSelf && node.nodeType == 3) {
       var text = node.data;
       if (node == range.endContainer) {
         text =
-          text.slice(0, range.endOffset) + "]" + text.slice(range.endOffset);
+          text.slice(0, range.endOffset) + ']' + text.slice(range.endOffset);
       }
       if (node == range.startContainer) {
         text =
           text.slice(0, range.startOffset) +
-          "[" +
+          '[' +
           text.slice(range.startOffset);
       }
 
@@ -383,14 +383,14 @@ function testRangeHtml(testEl, html: string, t: Assert) {
   t.equal(html, newHtml);
 }
 
-QUnit.test("Test the Range/HTML test functions", function (t) {
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('Test the Range/HTML test functions', function (t) {
+  var testEl = document.getElementById('qunit-fixture');
   testRangeHtml(testEl, 'Before <span class="test">[One]</span> after', t);
   testRangeHtml(testEl, 'Before <span class="test">|On]e</span> after', t);
   testRangeHtml(testEl, 'Before <span class="test">|One|</span> after', t);
   testRangeHtml(testEl, 'Bef[ore <span class="test">One</span> af]ter', t);
   testRangeHtml(testEl, 'Bef[ore <span class="test">|One</span> after', t);
-  testRangeHtml(testEl, "1[2]3", t);
+  testRangeHtml(testEl, '1[2]3', t);
 });
 
 /*
@@ -398,10 +398,10 @@ See http://jsfiddle.net/QTs5U/
 and http://aryeh.name/spec/editcommands/autoimplementation.html
  */
 
-QUnit.test("Test unapply to range spanning two blocks", function (t) {
-  var applier = createClassApplier("c1", true);
+QUnit.test('Test unapply to range spanning two blocks', function (t) {
+  var applier = createClassApplier('c1', true);
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<p>[One</p><div class="key">Two]</div>'
@@ -440,11 +440,11 @@ QUnit.test("Test unapply to range spanning two blocks", function (t) {
     });
 */
 
-QUnit.test("Test issue 50 (Mac double click)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test issue 50 (Mac double click)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "<b>[one</b>] two");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, '<b>[one</b>] two');
 
   applier.applyToRange(range);
   t.equal(
@@ -454,11 +454,11 @@ QUnit.test("Test issue 50 (Mac double click)", function (t) {
 });
 
 QUnit.test(
-  "Test issue 54 (two appliers, apply first then apply second to subrange then toggle first on same range)",
+  'Test issue 54 (two appliers, apply first then apply second to subrange then toggle first on same range)',
   function (t) {
-    var applier1 = createClassApplier("c1");
+    var applier1 = createClassApplier('c1');
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       'T<span class="c1">h<span class="c2">[r]</span>e</span>e'
@@ -473,11 +473,11 @@ QUnit.test(
 );
 
 QUnit.test(
-  "Test issue 54 (two appliers, apply first then apply second to subrange then toggle first on same range, more nodes)",
+  'Test issue 54 (two appliers, apply first then apply second to subrange then toggle first on same range, more nodes)',
   function (t) {
-    var applier1 = createClassApplier("c1");
+    var applier1 = createClassApplier('c1');
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       '<b>One</b> T<span class="c1">h<span class="c2">[r]</span>e</span>e'
@@ -492,11 +492,11 @@ QUnit.test(
 );
 
 QUnit.test(
-  "Test issue 54 related (last step toggles subrange of subrange)",
+  'Test issue 54 related (last step toggles subrange of subrange)',
   function (t) {
-    var applier1 = createClassApplier("c1");
+    var applier1 = createClassApplier('c1');
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       'T<span class="c1">h<span class="c2">r[r]r</span>e</span>e'
@@ -510,33 +510,33 @@ QUnit.test(
   }
 );
 
-QUnit.test("Test issue 57 (isAppliedToRange on empty range)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test issue 57 (isAppliedToRange on empty range)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(testEl, '<span class="c1">te[]st</span>');
   t.ok(applier.isAppliedToRange(range));
 
-  range = createRangeInHtml(testEl, "te[]st");
+  range = createRangeInHtml(testEl, 'te[]st');
   t.notOk(applier.isAppliedToRange(range));
 });
 
-QUnit.test("Test issue 202 (undoToRanges)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test issue 202 (undoToRanges)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML = '1<span class="c1">2</span>';
   var range = rangy.createRange();
   range.setStartAndEnd(testEl.firstChild, 1, testEl, 2);
   applier.undoToRanges([range]);
-  t.equal(testEl.innerHTML, "12");
+  t.equal(testEl.innerHTML, '12');
 });
 
-QUnit.test("Test whitespace 1 (non-ignorable whitespace)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test whitespace 1 (non-ignorable whitespace)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "x[<b>1</b> <i>2</i>]x");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 'x[<b>1</b> <i>2</i>]x');
   applier.applyToRange(range);
   t.equal(
     'x<b><span class="c1">[1</span></b><span class="c1"> </span><i><span class="c1">2]</span></i>x',
@@ -544,11 +544,11 @@ QUnit.test("Test whitespace 1 (non-ignorable whitespace)", function (t) {
   );
 });
 
-QUnit.test("Test whitespace 2 (ignorable whitespace)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test whitespace 2 (ignorable whitespace)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "x[<p>1</p> <p>2</p>]x");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 'x[<p>1</p> <p>2</p>]x');
   applier.applyToRange(range);
   t.equal(
     'x<p><span class="c1">[1</span></p> <p><span class="c1">2]</span></p>x',
@@ -557,12 +557,12 @@ QUnit.test("Test whitespace 2 (ignorable whitespace)", function (t) {
 });
 
 QUnit.test(
-  "Test whitespace 3 (ignorable whitespace, ignore option disabled)",
+  'Test whitespace 3 (ignorable whitespace, ignore option disabled)',
   function (t) {
-    var applier = createClassApplier("c1", { ignoreWhiteSpace: false });
+    var applier = createClassApplier('c1', { ignoreWhiteSpace: false });
 
-    var testEl = document.getElementById("qunit-fixture");
-    var range = createRangeInHtml(testEl, "x[<p>1</p> <p>2</p>]x");
+    var testEl = document.getElementById('qunit-fixture');
+    var range = createRangeInHtml(testEl, 'x[<p>1</p> <p>2</p>]x');
     applier.applyToRange(range);
     t.equal(
       'x<p><span class="c1">[1</span></p><span class="c1"> </span><p><span class="c1">2]</span></p>x',
@@ -571,10 +571,10 @@ QUnit.test(
   }
 );
 
-QUnit.test("Test whitespace 4 (pre whitespace between paras)", function (t) {
-  var applier = createClassApplier("c1", { ignoreWhiteSpace: true });
+QUnit.test('Test whitespace 4 (pre whitespace between paras)', function (t) {
+  var applier = createClassApplier('c1', { ignoreWhiteSpace: true });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     'x[<div style="white-space: pre"><p>1</p> <p>2</p></div>]x'
@@ -586,10 +586,10 @@ QUnit.test("Test whitespace 4 (pre whitespace between paras)", function (t) {
   );
 });
 
-QUnit.test("Test whitespace 5 (normal whitespace between paras)", function (t) {
-  var applier = createClassApplier("c1", { ignoreWhiteSpace: true });
+QUnit.test('Test whitespace 5 (normal whitespace between paras)', function (t) {
+  var applier = createClassApplier('c1', { ignoreWhiteSpace: true });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     'x[<div style="white-space: normal"><p>1</p> <p>2</p></div>]x'
@@ -602,11 +602,11 @@ QUnit.test("Test whitespace 5 (normal whitespace between paras)", function (t) {
 });
 
 QUnit.test(
-  "Test whitespace 6 (pre-line whitespace with no line break between paras)",
+  'Test whitespace 6 (pre-line whitespace with no line break between paras)',
   function (t) {
-    var applier = createClassApplier("c1", { ignoreWhiteSpace: true });
+    var applier = createClassApplier('c1', { ignoreWhiteSpace: true });
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       'x[<div style="white-space: pre-line"><p>1</p> <p>2</p></div>]x'
@@ -620,11 +620,11 @@ QUnit.test(
 );
 
 QUnit.test(
-  "Test whitespace 7 (pre-line whitespace with line break between paras)",
+  'Test whitespace 7 (pre-line whitespace with line break between paras)',
   function (t) {
-    var applier = createClassApplier("c1", { ignoreWhiteSpace: true });
+    var applier = createClassApplier('c1', { ignoreWhiteSpace: true });
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       'x[<div style="white-space: pre-line"><p>1</p>\n<p>2</p></div>]x'
@@ -637,16 +637,16 @@ QUnit.test(
   }
 );
 
-QUnit.test("Test link", function (t) {
-  var applier = createClassApplier("c1", {
-    elementTagName: "a",
+QUnit.test('Test link', function (t) {
+  var applier = createClassApplier('c1', {
+    elementTagName: 'a',
     elementProperties: {
-      href: "http://www.google.com/",
+      href: 'http://www.google.com/',
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "t[es]t");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 't[es]t');
   applier.applyToRange(range);
   t.equal(
     't<a class="c1" href="http://www.google.com/">[es]</a>t',
@@ -654,15 +654,15 @@ QUnit.test("Test link", function (t) {
   );
 });
 
-QUnit.test("Test removal of element with elementProperties", function (t) {
-  var applier = createClassApplier("c1", {
-    elementTagName: "a",
+QUnit.test('Test removal of element with elementProperties', function (t) {
+  var applier = createClassApplier('c1', {
+    elementTagName: 'a',
     elementProperties: {
-      href: "http://www.google.com/",
+      href: 'http://www.google.com/',
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '[1<a class="c1" href="http://www.timdown.co.uk/">2</a><span class="c1">3</span><a class="c1" href="http://www.google.com/">4</a>]5'
@@ -674,15 +674,15 @@ QUnit.test("Test removal of element with elementProperties", function (t) {
   );
 });
 
-QUnit.test("Test removal of element with elementAttributes", function (t) {
-  var applier = createClassApplier("c1", {
-    elementTagName: "a",
+QUnit.test('Test removal of element with elementAttributes', function (t) {
+  var applier = createClassApplier('c1', {
+    elementTagName: 'a',
     elementAttributes: {
-      href: "http://www.google.com/",
+      href: 'http://www.google.com/',
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '[1<a class="c1" href="http://www.timdown.co.uk/">2</a><span class="c1">3</span><a class="c1" href="http://www.google.com/">4</a>]5'
@@ -695,34 +695,34 @@ QUnit.test("Test removal of element with elementAttributes", function (t) {
 });
 
 QUnit.test(
-  "Test removal of element with elementAttributes and relative URL href",
+  'Test removal of element with elementAttributes and relative URL href',
   function (t) {
-    var applier = createClassApplier("c1", {
-      elementTagName: "a",
+    var applier = createClassApplier('c1', {
+      elementTagName: 'a',
       elementAttributes: {
-        href: "/test",
+        href: '/test',
       },
     });
 
-    var testEl = document.getElementById("qunit-fixture");
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
       '[1<a class="c1" href="/test">2</a>3]4'
     );
     applier.undoToRange(range);
-    t.equal("[123]4", htmlAndRangeToString(testEl, range));
+    t.equal('[123]4', htmlAndRangeToString(testEl, range));
   }
 );
 
-QUnit.test("Test adding extra class", function (t) {
-  var applier = createClassApplier("c1", {
+QUnit.test('Test adding extra class', function (t) {
+  var applier = createClassApplier('c1', {
     elementProperties: {
-      className: "extra",
+      className: 'extra',
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "t[es]t");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 't[es]t');
 
   applier.toggleRange(range);
   t.equal(
@@ -731,19 +731,19 @@ QUnit.test("Test adding extra class", function (t) {
   );
 
   applier.toggleRange(range);
-  t.equal("t[es]t", htmlAndRangeToString(testEl, range));
+  t.equal('t[es]t', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Test adding extra class with overlapping containers", function (t) {
-  var applier = createClassApplier("c1", {
-    elementProperties: { className: "extra" },
+QUnit.test('Test adding extra class with overlapping containers', function (t) {
+  var applier = createClassApplier('c1', {
+    elementProperties: { className: 'extra' },
   });
-  var applier2 = createClassApplier("c2", {
-    elementProperties: { className: "extra" },
+  var applier2 = createClassApplier('c2', {
+    elementProperties: { className: 'extra' },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "t[es]t");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 't[es]t');
   applier.applyToRange(range);
   applier2.applyToRange(range);
   t.equal(
@@ -753,17 +753,17 @@ QUnit.test("Test adding extra class with overlapping containers", function (t) {
 });
 
 QUnit.test(
-  "Test toggling extra class with overlapping containers",
+  'Test toggling extra class with overlapping containers',
   function (t) {
-    var applier = createClassApplier("c1", {
-      elementProperties: { className: "extra" },
+    var applier = createClassApplier('c1', {
+      elementProperties: { className: 'extra' },
     });
-    var applier2 = createClassApplier("c2", {
-      elementProperties: { className: "extra" },
+    var applier2 = createClassApplier('c2', {
+      elementProperties: { className: 'extra' },
     });
 
-    var testEl = document.getElementById("qunit-fixture");
-    var range = createRangeInHtml(testEl, "t[es]t");
+    var testEl = document.getElementById('qunit-fixture');
+    var range = createRangeInHtml(testEl, 't[es]t');
     applier.applyToRange(range);
     applier2.applyToRange(range);
     applier2.undoToRange(range);
@@ -773,15 +773,15 @@ QUnit.test(
     );
 
     applier.undoToRange(range);
-    t.equal("t[es]t", htmlAndRangeToString(testEl, range));
+    t.equal('t[es]t', htmlAndRangeToString(testEl, range));
   }
 );
 
-QUnit.test("Test range after two toggles", function (t) {
-  var applier1 = createClassApplier("c1");
+QUnit.test('Test range after two toggles', function (t) {
+  var applier1 = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "o[n]e");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, 'o[n]e');
 
   applier1.toggleRange(range);
   t.equal('o<span class="c1">[n]</span>e', htmlAndRangeToString(testEl, range));
@@ -793,13 +793,13 @@ QUnit.test("Test range after two toggles", function (t) {
   t.equal('o[<span class="c1">n</span>]e', htmlAndRangeToString(testEl, range));
 
   applier1.toggleRange(range);
-  t.equal("o[n]e", htmlAndRangeToString(testEl, range));
+  t.equal('o[n]e', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Test issue 73 (range ending in element)", function (t) {
-  var applier = createClassApplier("c1");
+QUnit.test('Test issue 73 (range ending in element)', function (t) {
+  var applier = createClassApplier('c1');
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML = '<span class="c1">one</span>two';
   var range = rangy.createRange();
   var span = testEl.childNodes[0];
@@ -809,39 +809,39 @@ QUnit.test("Test issue 73 (range ending in element)", function (t) {
   //t.equal('<span class="c1">[one]</span><br><br> two', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Test issue 101 (adding style properties)", function (t) {
-  var applier = createClassApplier("c1", {
-    elementTagName: "a",
+QUnit.test('Test issue 101 (adding style properties)', function (t) {
+  var applier = createClassApplier('c1', {
+    elementTagName: 'a',
     elementProperties: {
-      href: "http://www.timdown.co.uk/",
+      href: 'http://www.timdown.co.uk/',
       style: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
       },
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
-  testEl.innerHTML = "one";
+  var testEl = document.getElementById('qunit-fixture');
+  testEl.innerHTML = 'one';
   var range = rangy.createRange();
   range.selectNodeContents(testEl);
   applier.toggleRange(range);
   //alert(testEl.outerHTML)
 
   var link = testEl.firstChild as HTMLLinkElement;
-  t.equal(link.nodeName.toLowerCase(), "a");
-  t.equal(link.href.toLowerCase(), "http://www.timdown.co.uk/");
-  t.equal(link.style.fontWeight, "bold");
+  t.equal(link.nodeName.toLowerCase(), 'a');
+  t.equal(link.href.toLowerCase(), 'http://www.timdown.co.uk/');
+  t.equal(link.style.fontWeight, 'bold');
 
   applier.toggleRange(range);
-  t.equal(testEl.innerHTML, "one");
+  t.equal(testEl.innerHTML, 'one');
 });
 
-QUnit.test("Issue 111 (extra option for useExistingElements)", function (t) {
-  var applier = createClassApplier("c1", {
+QUnit.test('Issue 111 (extra option for useExistingElements)', function (t) {
+  var applier = createClassApplier('c1', {
     useExistingElements: true,
   });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(testEl, 'x[1<span class="c2">2</span>3]x');
   applier.applyToRange(range);
   t.equal(
@@ -854,7 +854,7 @@ QUnit.test("Issue 111 (extra option for useExistingElements)", function (t) {
     htmlAndRangeToString(testEl, range)
   );
 
-  applier = createClassApplier("c1", {
+  applier = createClassApplier('c1', {
     useExistingElements: false,
   });
 
@@ -870,9 +870,9 @@ QUnit.test("Issue 111 (extra option for useExistingElements)", function (t) {
   );
 });
 
-QUnit.test("Issue 139 (Merge bug)", function (t) {
-  var applier = createClassApplier("test");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('Issue 139 (Merge bug)', function (t) {
+  var applier = createClassApplier('test');
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<div><span class="test">[1<span class="test"></span></span> 2]</div>'
@@ -884,24 +884,24 @@ QUnit.test("Issue 139 (Merge bug)", function (t) {
   );
 });
 
-QUnit.test("Undo to range with empty span with class", function (t) {
-  var applier = createClassApplier("test");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('Undo to range with empty span with class', function (t) {
+  var applier = createClassApplier('test');
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<div>[1<span class="test"><span class="test"></span></span>2]</div>'
   );
   applier.undoToRange(range);
-  t.equal("<div>[12]</div>", htmlAndRangeToString(testEl, range));
+  t.equal('<div>[12]</div>', htmlAndRangeToString(testEl, range));
 });
 
 QUnit.test(
-  "Issue 148 (isAppliedToRange on range containing just an image)",
+  'Issue 148 (isAppliedToRange on range containing just an image)',
   function (t) {
-    var applier = createClassApplier("test");
-    var testEl = document.getElementById("qunit-fixture");
+    var applier = createClassApplier('test');
+    var testEl = document.getElementById('qunit-fixture');
 
-    var range = createRangeInHtml(testEl, "one [] two");
+    var range = createRangeInHtml(testEl, 'one [] two');
     t.notOk(applier.isAppliedToRange(range));
     range = createRangeInHtml(testEl, 'one [<img src="fake.png">] two');
     t.notOk(applier.isAppliedToRange(range));
@@ -916,14 +916,14 @@ QUnit.test(
   }
 );
 
-QUnit.test("Apply elementAttributes", function (t) {
-  var applier = createClassApplier("test", {
+QUnit.test('Apply elementAttributes', function (t) {
+  var applier = createClassApplier('test', {
     elementAttributes: {
-      "data-test": "foo",
+      'data-test': 'foo',
     },
   });
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "<div>1[2]3</div>");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, '<div>1[2]3</div>');
   applier.applyToRange(range);
   t.equal(
     '<div>1<span class="test" data-test="foo">[2]</span>3</div>',
@@ -931,49 +931,49 @@ QUnit.test("Apply elementAttributes", function (t) {
   );
 });
 
-QUnit.test("Unapply simple", function (t) {
-  var applier = createClassApplier("test");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('Unapply simple', function (t) {
+  var applier = createClassApplier('test');
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<div>1[<span class="test">2</span>]3</div>'
   );
   applier.undoToRange(range);
-  t.equal("<div>1[2]3</div>", htmlAndRangeToString(testEl, range));
+  t.equal('<div>1[2]3</div>', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Unapply simple with any tag", function (t) {
-  var applier = createClassApplier("test", {
-    tagNames: ["*"],
+QUnit.test('Unapply simple with any tag', function (t) {
+  var applier = createClassApplier('test', {
+    tagNames: ['*'],
   });
 
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<div>1[<span class="test">2</span>]3</div>'
   );
   applier.undoToRange(range);
-  t.equal("<div>1[2]3</div>", htmlAndRangeToString(testEl, range));
+  t.equal('<div>1[2]3</div>', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Unapply elementAttributes", function (t) {
-  var applier = createClassApplier("test", {
+QUnit.test('Unapply elementAttributes', function (t) {
+  var applier = createClassApplier('test', {
     elementAttributes: {
-      "data-test": "foo",
+      'data-test': 'foo',
     },
   });
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(
     testEl,
     '<div>1[<span class="test" data-test="foo">2</span>]3</div>'
   );
   applier.undoToRange(range);
-  t.equal("<div>1[2]3</div>", htmlAndRangeToString(testEl, range));
+  t.equal('<div>1[2]3</div>', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.skip("Merge error (issue 176)", function (t) {
-  var applier = createClassApplier("one");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.skip('Merge error (issue 176)', function (t) {
+  var applier = createClassApplier('one');
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML =
     '<span class="one"><span class="two"><span>a</span></span></span>b';
   var range = rangy.createRange();
@@ -982,14 +982,14 @@ QUnit.skip("Merge error (issue 176)", function (t) {
   // t.equal('[<span class="one"><span class="two"><span>a</span></span></span>b]', htmlAndRangeToString(testEl, range));
 });
 
-QUnit.test("Apply with className element property (issue 177)", function (t) {
-  var applier = createClassApplier("test", {
+QUnit.test('Apply with className element property (issue 177)', function (t) {
+  var applier = createClassApplier('test', {
     elementProperties: {
-      className: "foo",
+      className: 'foo',
     },
   });
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "[1]");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, '[1]');
   applier.applyToRange(range);
   t.equal(
     '<span class="foo test">[1]</span>',
@@ -997,43 +997,43 @@ QUnit.test("Apply with className element property (issue 177)", function (t) {
   );
 });
 
-QUnit.test("onElementCreate test", function (t) {
+QUnit.test('onElementCreate test', function (t) {
   var elementDataTest;
 
-  var applier = createClassApplier("test", {
+  var applier = createClassApplier('test', {
     elementAttributes: {
-      "data-test": "foo",
+      'data-test': 'foo',
     },
     onElementCreate: function (el) {
-      elementDataTest = el.getAttribute("data-test");
+      elementDataTest = el.getAttribute('data-test');
     },
   });
 
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "[1]");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, '[1]');
   applier.applyToRange(range);
 
-  t.equal(elementDataTest, "foo");
+  t.equal(elementDataTest, 'foo');
 });
 
-QUnit.skip("removeEmptyContainers error (issue 188)", function (t) {
-  var applier = createClassApplier("test");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.skip('removeEmptyContainers error (issue 188)', function (t) {
+  var applier = createClassApplier('test');
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML = '<span class="test"></span>';
   var range = rangy.createRange();
   range.selectNodeContents(testEl);
   applier.applyToRange(range);
 });
 
-QUnit.test("removeEmptyContainers error undoToRange (issue 188)", function (t) {
-  var applier = createClassApplier("test");
-  var testEl = document.getElementById("qunit-fixture");
+QUnit.test('removeEmptyContainers error undoToRange (issue 188)', function (t) {
+  var applier = createClassApplier('test');
+  var testEl = document.getElementById('qunit-fixture');
   testEl.innerHTML =
     '1<span class="test"></span><span class="test">2</span><span class="test"></span>3';
   var range = rangy.createRange();
   range.setStartAndEnd(testEl, 1, 4);
   applier.undoToRange(range);
-  t.equal(testEl.innerHTML, "123");
+  t.equal(testEl.innerHTML, '123');
   t.equal(testEl.childNodes.length, 1);
   t.equal(range.startContainer, testEl.firstChild);
   t.equal(range.startOffset, 1);
@@ -1041,12 +1041,12 @@ QUnit.test("removeEmptyContainers error undoToRange (issue 188)", function (t) {
   t.equal(range.endOffset, 2);
 });
 
-QUnit.test("Apply class to empty elements (issue 83)", function (t) {
-  var applier = createClassApplier("test", {
-    tagNames: ["span", "br"],
+QUnit.test('Apply class to empty elements (issue 83)', function (t) {
+  var applier = createClassApplier('test', {
+    tagNames: ['span', 'br'],
   });
-  var testEl = document.getElementById("qunit-fixture");
-  var range = createRangeInHtml(testEl, "1[2<br>3]4");
+  var testEl = document.getElementById('qunit-fixture');
+  var range = createRangeInHtml(testEl, '1[2<br>3]4');
   applier.applyToRange(range);
   t.equal(
     '1<span class="test">[2</span><br class="test" /><span class="test">3]</span>4',
@@ -1054,24 +1054,24 @@ QUnit.test("Apply class to empty elements (issue 83)", function (t) {
   );
 });
 
-QUnit.test("Unapply class to empty elements (issue 83)", function (t) {
-  var applier = createClassApplier("test", {
-    tagNames: ["span", "br"],
+QUnit.test('Unapply class to empty elements (issue 83)', function (t) {
+  var applier = createClassApplier('test', {
+    tagNames: ['span', 'br'],
   });
-  var testEl = document.getElementById("qunit-fixture");
+  var testEl = document.getElementById('qunit-fixture');
   var range = createRangeInHtml(testEl, '1[2<br class="test">3]4');
   applier.undoToRange(range);
-  t.equal("1[2<br />3]4", htmlAndRangeToString(testEl, range));
+  t.equal('1[2<br />3]4', htmlAndRangeToString(testEl, range));
 });
 
 QUnit.test(
-  "Avoid style, script and textarea elements (issue 281)",
+  'Avoid style, script and textarea elements (issue 281)',
   function (t) {
-    var applier = createClassApplier("test");
-    var testEl = document.getElementById("qunit-fixture");
+    var applier = createClassApplier('test');
+    var testEl = document.getElementById('qunit-fixture');
     var range = createRangeInHtml(
       testEl,
-      "1[2<style>.cheese { color: yellow; }</style>3]4"
+      '1[2<style>.cheese { color: yellow; }</style>3]4'
     );
     applier.applyToRange(range);
     t.equal(
@@ -1154,12 +1154,12 @@ if (document.createElementNS) {
         });
 */
 
-  QUnit.test("<svg> element support", function (t) {
-    var applier = createClassApplier("test", {
-      elementTagName: "tspan",
+  QUnit.test('<svg> element support', function (t) {
+    var applier = createClassApplier('test', {
+      elementTagName: 'tspan',
     });
-    var testEl = document.getElementById("qunit-fixture");
-    var range = createRangeInHtml(testEl, "<svg><text>1[2]3</text></svg>");
+    var testEl = document.getElementById('qunit-fixture');
+    var range = createRangeInHtml(testEl, '<svg><text>1[2]3</text></svg>');
     applier.applyToRange(range);
     t.equal(
       '<svg><text>1<tspan class="test">[2]</tspan>3</text></svg>',
@@ -1167,7 +1167,7 @@ if (document.createElementNS) {
     );
     applier.undoToRange(range);
     t.equal(
-      "<svg><text>1[2]3</text></svg>",
+      '<svg><text>1[2]3</text></svg>',
       htmlAndRangeToString(testEl, range)
     );
   });

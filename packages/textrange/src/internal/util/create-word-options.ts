@@ -1,5 +1,5 @@
-import { defaultLanguage } from "../constants";
-import defaultTokenizer, { TokenChar, TokenRange } from "./default-tokenizer";
+import { defaultLanguage } from '../constants';
+import defaultTokenizer, { TokenChar, TokenRange } from './default-tokenizer';
 
 const defaultWordOptions: Record<string, WordOptions> = {
   [defaultLanguage]: {

@@ -6,7 +6,7 @@
 // "nowrap"; or a Text node whose data consists only of one or more tabs
 // (0x0009), carriage returns (0x000D), and/or spaces (0x0020), and whose
 
-import { dom } from "@rangy/core";
+import { dom } from '@rangy/core';
 
 // parent is an Element whose resolved value for "white-space" is "pre-line"."
 function isWhitespaceNode(node: Node): boolean {
@@ -17,7 +17,7 @@ function isWhitespaceNode(node: Node): boolean {
   const textNode = node as Text;
 
   var text = textNode.data;
-  if (text === "") {
+  if (text === '') {
     return true;
   }
 
@@ -27,13 +27,13 @@ function isWhitespaceNode(node: Node): boolean {
   }
   var computedWhiteSpace = dom.getComputedStyleProperty(
     node.parentNode,
-    "whiteSpace"
+    'whiteSpace'
   );
 
   return (
     (/^[\t\n\r ]+$/.test(text) &&
       /^(normal|nowrap)$/.test(computedWhiteSpace)) ||
-    (/^[\t\r ]+$/.test(text) && computedWhiteSpace == "pre-line")
+    (/^[\t\r ]+$/.test(text) && computedWhiteSpace == 'pre-line')
   );
 }
 

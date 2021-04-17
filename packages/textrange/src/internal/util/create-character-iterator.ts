@@ -1,7 +1,7 @@
-import log from "../log";
-import Position from "../position";
-import { CharacterOptions } from "./create-nested-options";
-import isCollapsedNode from "./is-collapsed-node";
+import log from '../log';
+import Position from '../position';
+import { CharacterOptions } from './create-nested-options';
+import isCollapsedNode from './is-collapsed-node';
 
 function createCharacterIterator(
   startPos: Position,
@@ -10,10 +10,10 @@ function createCharacterIterator(
   characterOptions: CharacterOptions
 ) {
   log.info(
-    "createCharacterIterator called backwards " +
+    'createCharacterIterator called backwards ' +
       backward +
-      " and with endPos " +
-      (endPos ? endPos.inspect() : "")
+      ' and with endPos ' +
+      (endPos ? endPos.inspect() : '')
   );
 
   // Adjust the end position to ensure that it is actually reached
@@ -30,9 +30,9 @@ function createCharacterIterator(
   }
 
   log.info(
-    "endPos now " +
-      (endPos ? endPos.inspect() : "") +
-      ", startPos " +
+    'endPos now ' +
+      (endPos ? endPos.inspect() : '') +
+      ', startPos ' +
       startPos.inspect()
   );
 
@@ -41,10 +41,10 @@ function createCharacterIterator(
 
   function next() {
     log.debug(
-      "****** NEXT CALLED. FINISHED IS " +
+      '****** NEXT CALLED. FINISHED IS ' +
         finished +
-        ", pos is " +
-        (pos ? pos.inspect() : "non-existent")
+        ', pos is ' +
+        (pos ? pos.inspect() : 'non-existent')
     );
     var charPos = null;
     if (backward) {
@@ -62,7 +62,7 @@ function createCharacterIterator(
     if (finished) {
       pos = null;
     }
-    log.info("Finished: " + finished);
+    log.info('Finished: ' + finished);
     return charPos;
   }
 
@@ -92,7 +92,7 @@ function createCharacterIterator(
         returnPreviousTextPos = true;
       } else {
         throw new Error(
-          "createCharacterIterator: cannot rewind. Only one position can be rewound."
+          'createCharacterIterator: cannot rewind. Only one position can be rewound.'
         );
       }
     },

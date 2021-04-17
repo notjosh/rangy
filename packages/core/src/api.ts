@@ -1,71 +1,72 @@
-const UNDEF = "undefined";
+const UNDEF = 'undefined';
 
-export const version = "%%build:version%%";
+export const version = '%%build:version%%';
 export const isBrowser = typeof window != UNDEF && typeof document != UNDEF;
 if (!isBrowser) {
-    console.log("Rangy can only run in a browser");
+  console.log('Rangy can only run in a browser');
 }
 export interface Features {
-    /** @deprecated always support */
-    implementsDomRange: true;
-    /** @deprecated always dont support IE < 9 */
-    implementsTextRange: false;
-    /** @deprecated always don't support IE 6, 7, Pre-Blink Opera */
-    htmlParsingConforms: true;
-    /** @deprecated
-     * Test for IE's crash (IE 6/7) or exception (IE >= 8) when a reference to garbage-collected text node is queried
-     * rangy2 don't support IE < 9. I have tested in browserstack.com with updated IE => not crash */
-    crashyTextNodes: false;
-    /** @deprecated Always use window.getSelection */
-    implementsWinGetSelection: true;
-    /** @deprecated document.selection should only be used for IE < 9 which rangy2 don't support */
-    implementsDocSelection: false;
-    /** @deprecated Always true */
-    selectionHasAnchorAndFocus: true;
-    /** @deprecated Always true */
-    selectionHasExtend: true;
-    /** @deprecated Always true */
-    selectionHasRangeCount: true;
-    selectionSupportsMultipleRanges: boolean;
-    implementsControlRange: false;
-    collapsedNonEditableSelectionsSupported: boolean;
+  /** @deprecated always support */
+  implementsDomRange: true;
+  /** @deprecated always dont support IE < 9 */
+  implementsTextRange: false;
+  /** @deprecated always don't support IE 6, 7, Pre-Blink Opera */
+  htmlParsingConforms: true;
+  /** @deprecated
+   * Test for IE's crash (IE 6/7) or exception (IE >= 8) when a reference to garbage-collected text node is queried
+   * rangy2 don't support IE < 9. I have tested in browserstack.com with updated IE => not crash */
+  crashyTextNodes: false;
+  /** @deprecated Always use window.getSelection */
+  implementsWinGetSelection: true;
+  /** @deprecated document.selection should only be used for IE < 9 which rangy2 don't support */
+  implementsDocSelection: false;
+  /** @deprecated Always true */
+  selectionHasAnchorAndFocus: true;
+  /** @deprecated Always true */
+  selectionHasExtend: true;
+  /** @deprecated Always true */
+  selectionHasRangeCount: true;
+  selectionSupportsMultipleRanges: boolean;
+  implementsControlRange: false;
+  collapsedNonEditableSelectionsSupported: boolean;
 }
 export const features: Features = {
-    implementsDomRange: true,
-    implementsTextRange: false,
-    htmlParsingConforms: true,
-    crashyTextNodes: false,
-    implementsWinGetSelection: true,
-    implementsDocSelection: false,
-    selectionHasAnchorAndFocus: true,
-    selectionHasExtend: true,
-    selectionHasRangeCount: true,
-    selectionSupportsMultipleRanges: window.navigator.userAgent.indexOf("Firefox") > -1,
-    implementsControlRange: false,
-    collapsedNonEditableSelectionsSupported: true,
+  implementsDomRange: true,
+  implementsTextRange: false,
+  htmlParsingConforms: true,
+  crashyTextNodes: false,
+  implementsWinGetSelection: true,
+  implementsDocSelection: false,
+  selectionHasAnchorAndFocus: true,
+  selectionHasExtend: true,
+  selectionHasRangeCount: true,
+  selectionSupportsMultipleRanges:
+    window.navigator.userAgent.indexOf('Firefox') > -1,
+  implementsControlRange: false,
+  collapsedNonEditableSelectionsSupported: true,
 };
 export interface Config {
-    /** @deprecated range2 don't have TextRange */
-    preferTextRange: false;
-    checkSelectionRanges: boolean;
+  /** @deprecated range2 don't have TextRange */
+  preferTextRange: false;
+  checkSelectionRanges: boolean;
 }
 export const config: Config = {
-    preferTextRange: false,
-    checkSelectionRanges: true,
+  preferTextRange: false,
+  checkSelectionRanges: true,
 };
-    // RangePrototype,
-    // rangePrototype: new RangePrototype(),
-    // selectionPrototype: new SelectionPrototype(),
+// RangePrototype,
+// rangePrototype: new RangePrototype(),
+// selectionPrototype: new SelectionPrototype(),
 
 export function onDocReady(listener: () => void) {
-    if (!isBrowser) return;
-    if (document.readyState == "complete") {
-        listener();
-    } else {
-        let onLoaded = function () {
-            document.removeEventListener("DOMContentLoaded", onLoaded, false);
-            listener();
-        };
-        document.addEventListener("DOMContentLoaded", onLoaded, false);
-    }
+  if (!isBrowser) return;
+  if (document.readyState == 'complete') {
+    listener();
+  } else {
+    let onLoaded = function () {
+      document.removeEventListener('DOMContentLoaded', onLoaded, false);
+      listener();
+    };
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+  }
 }

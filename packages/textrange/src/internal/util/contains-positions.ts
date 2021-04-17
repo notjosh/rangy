@@ -1,4 +1,4 @@
-import { dom } from "@rangy/core";
+import { dom } from '@rangy/core';
 
 function containsPositions(node: Node): boolean {
   return (

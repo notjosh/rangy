@@ -64,7 +64,7 @@
  * feature-tested
  */
 /* build:modularizeWithRangyDependency */
-rangy.createModule("TextRange", ["WrappedSelection"], function (api, module) {
+rangy.createModule('TextRange', ['WrappedSelection'], function (api, module) {
   // var UNDEF = "undefined";
   // var CHARACTER = "character",
   //   WORD = "word";
@@ -74,7 +74,7 @@ rangy.createModule("TextRange", ["WrappedSelection"], function (api, module) {
   var createOptions = util.createOptions;
   var getBody = dom.getBody;
 
-  var log = log4javascript.getLogger("rangy.textrange");
+  var log = log4javascript.getLogger('rangy.textrange');
 
   // var spacesRegex = /^[ \t\f\r\n]+$/;
   // var spacesMinusLineBreaksRegex = /^[ \t\f\r]+$/;

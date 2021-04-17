@@ -1,2 +1,2 @@
-import "./qunit-ex";
-export * from "./testutils";
+import './qunit-ex';
+export * from './testutils';
