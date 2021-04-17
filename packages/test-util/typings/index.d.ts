@@ -1,12 +1,13 @@
 import 'qunit';
 
-declare global {
+declare module 'qunit' {
   interface Assert {
     notThrows(f: () => void, msg?: string): void;
     assertNull(state: any, message?: string): void;
     assertFalse(state: any, message?: string): void;
     assertTrue(state: any, message?: string): void;
   }
+
   interface QUnit {
     testEx(
       name: string,
@@ -31,4 +32,3 @@ declare module 'bowser' {
   }
 }
 
-export * from './index';
