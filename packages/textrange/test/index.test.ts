@@ -3,8 +3,11 @@ import * as textRange from '@rangy/textrange';
 import '@rangy/test-util';
 import type { FindOptions } from '@rangy/textrange/dist/types/internal/constants';
 
-let el: HTMLElement | null;
-el = document.createElement('div');
+const container = document.createElement('div');
+container.id = 'rangy-container';
+document.body.appendChild(container);
+
+let el: HTMLElement | null = document.createElement('div');
 el.innerHTML = '1  2';
 const textNodeSpacesCollapsed = (el.firstChild as Text).length == 3;
 
@@ -15,11 +18,12 @@ QUnit.log((details) => {
 QUnit.module('Text Range module tests', {
   beforeEach: () => {
     el = document.createElement('div') as HTMLElement;
-    document.body.appendChild(el);
+    el.id = 'el';
+    container.appendChild(el);
   },
   afterEach: () => {
     if (el != null) {
-      el.parentNode.removeChild(el);
+      container.removeChild(el);
     }
     //textRange.endTransaction();
   },
@@ -430,7 +434,10 @@ QUnit.test('innerText on two paragraphs with collapsed br', function (t) {
 
 QUnit.test('innerText one paragraph with collapsed br ', function (t) {
   el.innerHTML = '<p>1<br></p>';
-  t.equal(textRange.innerText(el), '1');
+  t.equal(
+    textRange.innerText(el, { includeBlockContentTrailingSpace: false }),
+    '1'
+  );
 });
 
 QUnit.test('innerText on empty element', function (t) {
@@ -614,7 +621,7 @@ function visibleSpaces(str) {
   return str
     .replace(/\n/g, '\\n')
     .replace(/\r/g, '\\r')
-    .replace(/\s/g, function (m) {
+    .replace(/\s/g, (m: string): string => {
       return '[' + m.charCodeAt(0) + ']';
     });
 }
@@ -1245,26 +1252,26 @@ QUnit.test('trimStart test', function (t) {
   var range = rangy.createRange() as rangy.WrappedRange;
   range.setStartAndEnd(textNode, 3, 8);
   range.trimStart();
-  t.equal(range.startOffset, 4);
-  t.equal(range.endOffset, 8);
+  t.equal(range.startOffset, 4, 'range.startOffset');
+  t.equal(range.endOffset, 8, 'range.endOffset');
   range.trimStart();
-  t.equal(range.startOffset, 4);
-  t.equal(range.endOffset, 8);
+  t.equal(range.startOffset, 4, 'range.startOffset, repeated');
+  t.equal(range.endOffset, 8, 'range.endOffset, repeated');
 
   el.innerHTML = 'One&nbsp;&nbsp;two three';
   range.selectCharacters(el, 3, 8);
   t.equal(range.text(), '\u00a0\u00a0two');
 
-  var charRange = range.toCharacterRange();
+  var charRange = range.toCharacterRange(el.parentElement);
 
   range.trimStart();
-  t.equal(range.text(), 'two');
+  t.equal(range.text(), 'two', 'trims &nbsp;');
 
-  var trimmedCharRange = range.toCharacterRange();
-  t.equal(charRange.start, 3);
-  t.equal(charRange.end, 8);
-  t.equal(trimmedCharRange.start, 5);
-  t.equal(trimmedCharRange.end, 8);
+  var trimmedCharRange = range.toCharacterRange(container);
+  t.equal(charRange.start, 3, 'charRange.start');
+  t.equal(charRange.end, 8, 'charRange.end');
+  t.equal(trimmedCharRange.start, 5, 'trimmedCharRange.start');
+  t.equal(trimmedCharRange.end, 8, 'trimmedCharRange.start');
 });
 
 QUnit.test('trimEnd test', function (t) {
@@ -1283,12 +1290,12 @@ QUnit.test('trimEnd test', function (t) {
   range.selectCharacters(el, 4, 9);
   t.equal(range.text(), 'two\u00a0\u00a0');
 
-  var charRange = range.toCharacterRange();
+  var charRange = range.toCharacterRange(container);
 
   range.trimEnd();
   t.equal(range.text(), 'two');
 
-  var trimmedCharRange = range.toCharacterRange();
+  var trimmedCharRange = range.toCharacterRange(container);
   t.equal(charRange.start, 4);
   t.equal(charRange.end, 9);
   t.equal(trimmedCharRange.start, 4);
@@ -1399,18 +1406,19 @@ QUnit.test('toCharacterRange test (issue 286)', function (t) {
   t.equal(charRange.end, 47);
 });
 
-QUnit.test('<div><br></div><div>x</div> test (issue 164)', function (t) {
+QUnit.test('<div><br></div><div>x</div> test (issue 164 part 1)', function (t) {
   el.innerHTML = '<div><br></div><div>x</div>';
   var div = el.lastChild;
   var range = rangy.createRange();
   range.setStartAndEnd(div, 0);
   var charRange = range.toCharacterRange(el);
-  t.equal(charRange.start, 1);
-  t.equal(charRange.end, 1);
+  console.log({ div, range, charRange });
+  t.equal(charRange.start, 1, 'charRange.start');
+  t.equal(charRange.end, 1, 'charRange.end');
 });
 
 QUnit.test(
-  '<div><br></div><div><br></div><div><br></div> test (issue 164)',
+  '<div><br></div><div><br></div><div><br></div> test (issue 164 part 2)',
   function (t) {
     el.innerHTML = '<div><br></div><div><br></div><div><br></div>';
     var div = el.lastChild;

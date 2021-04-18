@@ -56,7 +56,10 @@ export const innerText = (
 ) => {
   var range = createRange(el);
   range.selectNodeContents(el);
-  var text = range.text(characterOptions);
+  var text = range.text({
+    includeBlockContentTrailingSpace: true,
+    ...characterOptions,
+  });
   log.debug(
     "innerText is '" +
       text.replace(/\s/g, function (matched) {

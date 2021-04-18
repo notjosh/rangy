@@ -7,13 +7,16 @@ import replace from 'rollup-plugin-re';
 import { terser } from 'rollup-plugin-terser';
 import { packages } from './util';
 
-const { LERNA_PACKAGE_NAME, LERNA_ROOT_PATH } = process.env;
+const { LERNA_PACKAGE_NAME, LERNA_ROOT_PATH, IS_DEVELOPMENT } = process.env;
 const PACKAGE_ROOT_PATH = process.cwd();
 const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, 'dist', 'build', 'index.js');
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
 
 const isTestUtil = LERNA_PACKAGE_NAME === '@rangy/test-util';
+const isDevelopment = IS_DEVELOPMENT === 'true' ?? false;
+
+console.log({ isDevelopment });
 
 const ALL_MODULES = packages;
 
@@ -57,23 +60,25 @@ const make = (
 
   const options: RollupOptions = {
     plugins: [
-      // strip({
-      //   functions: ['console.*', 'assert.*', 'log.*', 'log4javascript.*'],
-      // }),
-      // replace({
-      //   exclude: 'node_modules/**',
-      //   replaces: buildVars,
-      //   defines: {
-      //     IS_DEVELOPMENT: false,
-      //   },
-      //   patterns: [
-      //     //remove logging
-      //     {
-      //       test: /(.*log4javascript.*)/g,
-      //       replace: '',
-      //     },
-      //   ],
-      // }),
+      !isDevelopment &&
+        strip({
+          functions: ['console.*', 'assert.*', 'log.*', 'log4javascript.*'],
+        }),
+      !isDevelopment &&
+        replace({
+          exclude: 'node_modules/**',
+          replaces: buildVars,
+          defines: {
+            IS_DEVELOPMENT: isDevelopment,
+          },
+          patterns: [
+            //remove logging
+            {
+              test: /(.*log4javascript.*)/g,
+              replace: '',
+            },
+          ],
+        }),
       resolve({
         browser: isBrowserBundle,
         preferBuiltins: false,
