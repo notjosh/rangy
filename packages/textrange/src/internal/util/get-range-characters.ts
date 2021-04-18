@@ -1,18 +1,20 @@
 import { WrappedRange } from '@rangy/core';
+import { CharacterOptions } from '../constants';
 import log from '../log';
+import Position from '../position';
 import Session from '../session';
 import createRangeCharacterIterator from './create-range-character-iterator';
 
 function getRangeCharacters(
   session: Session,
   range: WrappedRange,
-  characterOptions
+  characterOptions: CharacterOptions
 ) {
   log.info('getRangeCharacters called on range ' + range.inspect());
 
-  var chars = [],
+  var chars: Position[] = [],
     it = createRangeCharacterIterator(session, range, characterOptions),
-    pos;
+    pos: Position;
   while ((pos = it.next())) {
     log.info(
       '*** GOT CHAR ' +

@@ -43,7 +43,11 @@ const outputFile = (f: string, isProduction: boolean) => {
   return isProduction ? f.replace(/\.js$/, '.min.js') : f;
 };
 
-const browserExternals = [...ALL_MODULES, ...(isTestUtil ? ['qunit'] : [])];
+const browserExternals = [
+  ...ALL_MODULES,
+  ...LOCAL_EXTERNALS,
+  ...(isTestUtil ? ['qunit'] : []),
+];
 
 const make = (
   isBrowserBundle: boolean,
@@ -53,23 +57,23 @@ const make = (
 
   const options: RollupOptions = {
     plugins: [
-      strip({
-        functions: ['console.*', 'assert.*', 'log.*', 'log4javascript.*'],
-      }),
-      replace({
-        exclude: 'node_modules/**',
-        replaces: buildVars,
-        defines: {
-          IS_DEVELOPMENT: false,
-        },
-        patterns: [
-          //remove logging
-          {
-            test: /(.*log4javascript.*)/g,
-            replace: '',
-          },
-        ],
-      }),
+      // strip({
+      //   functions: ['console.*', 'assert.*', 'log.*', 'log4javascript.*'],
+      // }),
+      // replace({
+      //   exclude: 'node_modules/**',
+      //   replaces: buildVars,
+      //   defines: {
+      //     IS_DEVELOPMENT: false,
+      //   },
+      //   patterns: [
+      //     //remove logging
+      //     {
+      //       test: /(.*log4javascript.*)/g,
+      //       replace: '',
+      //     },
+      //   ],
+      // }),
       resolve({
         browser: isBrowserBundle,
         preferBuiltins: false,

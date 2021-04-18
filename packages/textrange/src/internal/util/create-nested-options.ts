@@ -1,27 +1,11 @@
+import { CharacterOptions, defaultCharacterOptions } from '../constants';
 import createWordOptions, { WordOptions } from './create-word-options';
 
-export type CharacterOptions = {
-  includeBlockContentTrailingSpace: boolean;
-  includeSpaceBeforeBr: boolean;
-  includeSpaceBeforeBlock: boolean;
-  includePreLineTrailingSpace: boolean;
-  ignoreCharacters: string;
-};
-
-export const defaultCharacterOptions: CharacterOptions = {
-  includeBlockContentTrailingSpace: true,
-  includeSpaceBeforeBr: true,
-  includeSpaceBeforeBlock: true,
-  includePreLineTrailingSpace: true,
-  ignoreCharacters: '',
-};
-
-function createNestedOptions(
-  optionsParam: Record<string, unknown>,
-  defaults: Record<string, unknown> &
+function createNestedOptions<
+  T extends Record<string, unknown> &
     Partial<{ wordOptions: WordOptions }> &
     Partial<{ characterOptions: CharacterOptions }>
-): Record<string, unknown> {
+>(optionsParam: Record<string, unknown>, defaults: T): T {
   const options = { ...defaults, ...optionsParam };
 
   if (defaults.wordOptions != null) {

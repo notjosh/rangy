@@ -1,10 +1,10 @@
 import { WrappedRange } from '@rangy/core';
-import { allWhiteSpaceRegex } from '../constants';
-import Session, { createEntryPointFunction } from '../session';
 import {
+  allWhiteSpaceRegex,
   CharacterOptions,
   defaultCharacterOptions,
-} from './create-nested-options';
+} from '../constants';
+import Session, { createEntryPointFunction } from '../session';
 import createRangeCharacterIterator from './create-range-character-iterator';
 
 function createRangeTrimmer(isStart: boolean) {
@@ -22,7 +22,7 @@ function createRangeTrimmer(isStart: boolean) {
     var it = createRangeCharacterIterator(
       session,
       self,
-      characterOptions,
+      characterOptionsFilled,
       !isStart
     );
     var trimCharCount = 0;

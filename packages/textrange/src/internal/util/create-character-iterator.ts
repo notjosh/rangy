@@ -1,6 +1,6 @@
+import { CharacterOptions } from '../constants';
 import log from '../log';
 import Position from '../position';
-import { CharacterOptions } from './create-nested-options';
 import isCollapsedNode from './is-collapsed-node';
 
 function createCharacterIterator(

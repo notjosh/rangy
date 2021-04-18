@@ -17,6 +17,10 @@ const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
 const ALL_MODULES = packages;
 
 const LOCAL_GLOBALS = {
+  // TODO: autogenerate
+  '@rangy/test-util': 'window["@rangy/test-util"]',
+  '@rangy/textrange': 'window["@rangy/textrange"]',
+
   '@rangy/core': 'rangy',
   qunit: 'qunit',
 };
@@ -25,7 +29,7 @@ const LOCAL_EXTERNALS = Object.keys(LOCAL_GLOBALS);
 
 const globals = LOCAL_GLOBALS;
 
-const external = [...ALL_MODULES, 'qunit'];
+const external = [...ALL_MODULES, ...LOCAL_EXTERNALS, 'qunit'];
 
 const outputFile = (f: string, isProduction: boolean) => {
   return isProduction ? f.replace(/\.js$/, '.min.js') : f;
@@ -49,7 +53,7 @@ const make = (inputFileName: string): RollupOptions => {
 
     external,
 
-    inlineDynamicImports: true,
+    inlineDynamicImports: false,
 
     output: {
       file: input.replace(/\.js$/, `.${format}.js`),

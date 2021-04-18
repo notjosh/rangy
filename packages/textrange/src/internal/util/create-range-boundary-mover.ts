@@ -1,14 +1,24 @@
 import { WrappedRange } from '@rangy/core';
-import { CHARACTER } from '../constants';
+import {
+  CHARACTER,
+  CharacterOptions,
+  defaultCharacterOptions,
+  defaultWordOptions,
+} from '../constants';
 import log from '../log';
 import Session, { createEntryPointFunction } from '../session';
-import createNestedOptions, { CharacterOptions } from './create-nested-options';
+import createNestedOptions from './create-nested-options';
 import { WordOptions } from './create-word-options';
 import movePositionBy from './move-position-by';
 
 const defaultMoveOptions = {
-  wordOptions: null,
-  characterOptions: null,
+  wordOptions: defaultWordOptions,
+  characterOptions: defaultCharacterOptions,
+};
+
+export type MoveOptionsArgument = {
+  wordOptions?: Partial<WordOptions>;
+  characterOptions?: Partial<CharacterOptions>;
 };
 
 export type MoveOptions = {
@@ -30,14 +40,17 @@ function createRangeBoundaryMover(isStart: boolean, collapse: boolean) {
     session: Session,
     unit: string = CHARACTER,
     count: number,
-    moveOptions: Partial<MoveOptions>
+    moveOptionsArgument?: MoveOptionsArgument
   ) {
     const self = this as WrappedRange;
     // if (typeof count == UNDEF) {
     //   count = unit;
     //   unit = CHARACTER;
     // }
-    moveOptions = createNestedOptions(moveOptions, defaultMoveOptions);
+    const moveOptions: MoveOptions = createNestedOptions(
+      moveOptionsArgument,
+      defaultMoveOptions
+    );
     log.debug(
       '** moving boundary. start: ' +
         isStart +

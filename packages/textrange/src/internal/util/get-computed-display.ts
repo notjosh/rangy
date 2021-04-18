@@ -1,15 +1,15 @@
-import { dom } from '@rangy/core';
+import { dom, onDocReady } from '@rangy/core';
 
 // Test for old IE's incorrect display properties
-var tableCssDisplayBlock: boolean;
-(function () {
+var tableCssDisplayBlock: boolean = false;
+onDocReady(() => {
   var table = document.createElement('table');
   var body = dom.getBody(document);
   body.appendChild(table);
   tableCssDisplayBlock =
     dom.getComputedStyleProperty(table, 'display') == 'block';
   body.removeChild(table);
-})();
+});
 
 const defaultDisplayValueForTag = {
   table: 'table',

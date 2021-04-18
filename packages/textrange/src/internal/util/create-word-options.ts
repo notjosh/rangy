@@ -1,13 +1,5 @@
-import { defaultLanguage } from '../constants';
-import defaultTokenizer, { TokenChar, TokenRange } from './default-tokenizer';
-
-const defaultWordOptions: Record<string, WordOptions> = {
-  [defaultLanguage]: {
-    wordRegex: /[a-z0-9]+('[a-z0-9]+)*/gi,
-    includeTrailingSpace: false,
-    tokenizer: defaultTokenizer,
-  },
-};
+import { defaultLanguage, defaultWordOptionsWithLanguage } from '../constants';
+import { TokenChar, TokenRange } from './default-tokenizer';
 
 export type WordOptions = {
   wordRegex: RegExp;
@@ -19,11 +11,12 @@ function createWordOptions(
   options?: Partial<WordOptions> & Partial<{ language: string }>
 ): WordOptions {
   if (options == null) {
-    return defaultWordOptions[defaultLanguage];
+    return defaultWordOptionsWithLanguage[defaultLanguage];
   } else {
     const lang = options.language || defaultLanguage;
     return {
-      ...(defaultWordOptions[lang] ?? defaultWordOptions[defaultLanguage]),
+      ...(defaultWordOptionsWithLanguage[lang] ??
+        defaultWordOptionsWithLanguage[defaultLanguage]),
       ...options,
     };
   }

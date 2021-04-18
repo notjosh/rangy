@@ -100,7 +100,7 @@ class Session {
 
 let currentSession: Session | null = null;
 
-export function createEntryPointFunction(func) {
+export function createEntryPointFunction(func: Function) {
   return function () {
     var sessionRunning = !!currentSession;
     var session = getSession();
@@ -122,7 +122,7 @@ export function getSession() {
   return currentSession || startSession();
 }
 
-function endSession() {
+export function endSession() {
   if (currentSession) {
     currentSession.detach();
   }

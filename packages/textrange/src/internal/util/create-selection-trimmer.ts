@@ -1,11 +1,11 @@
 import { WrappedSelection } from '@rangy/core';
+import { CharacterOptions } from '../constants';
 import Session, { createEntryPointFunction } from '../session';
-import { CharacterOptions } from './create-nested-options';
 
 function createSelectionTrimmer(methodName: string) {
   return createEntryPointFunction(function (
     session: Session,
-    characterOptions: Partial<CharacterOptions>
+    characterOptions?: Partial<CharacterOptions>
   ): boolean {
     const self = this as WrappedSelection;
     var trimmed = false;

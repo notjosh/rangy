@@ -1,8 +1,8 @@
 import { dom } from '@rangy/core';
+import { CharacterOptions } from './constants';
 import log from './log';
 import NodeWrapper from './nodewrapper';
 import Session from './session';
-import { CharacterOptions } from './util/create-nested-options';
 import { Token } from './util/default-tokenizer';
 import isCollapsedNode from './util/is-collapsed-node';
 import Memoize from './util/memoize-decorator';

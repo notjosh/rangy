@@ -1,8 +1,7 @@
-import { CHARACTER, WORD } from '../constants';
+import { CHARACTER, CharacterOptions, WORD } from '../constants';
 import log from '../log';
 import Position from '../position';
 import createCharacterIterator from './create-character-iterator';
-import { CharacterOptions } from './create-nested-options';
 import createTokenizedTextProvider from './create-tokenized-text-provider';
 import { WordOptions } from './create-word-options';
 

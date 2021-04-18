@@ -8,11 +8,14 @@ import {
 } from '@rangy/core';
 import {
   CHARACTER,
+  CharacterOptions,
   defaultCaretCharacterOptions,
+  defaultCharacterOptions,
   defaultExpandOptions,
   defaultFindOptions,
   defaultWordIteratorOptions,
   ExpandOptions,
+  ExpandOptionsArgument,
   FindOptions,
   WORD,
   WordIteratorOptions,
@@ -21,12 +24,11 @@ import log from './internal/log';
 import Position from './internal/position';
 import Session, {
   createEntryPointFunction,
+  endSession,
   getSession,
 } from './internal/session';
-import createNestedOptions, {
-  CharacterOptions,
-  defaultCharacterOptions,
-} from './internal/util/create-nested-options';
+import './internal/types';
+import createNestedOptions from './internal/util/create-nested-options';
 import createRangeBoundaryMover from './internal/util/create-range-boundary-mover';
 import createRangeTrimmer from './internal/util/create-range-trimmer';
 import createSelectionTrimmer from './internal/util/create-selection-trimmer';
@@ -48,7 +50,10 @@ export type CharacterRangeInfo = {
   backward: boolean;
 };
 
-export const innerText = (el: Node, characterOptions: CharacterOptions) => {
+export const innerText = (
+  el: Node,
+  characterOptions?: Partial<CharacterOptions>
+) => {
   var range = createRange(el);
   range.selectNodeContents(el);
   var text = range.text(characterOptions);
@@ -65,11 +70,11 @@ export const innerText = (el: Node, characterOptions: CharacterOptions) => {
 export const createWordIterator = (
   startNode: Node,
   startOffset: number,
-  iteratorOptions: Partial<WordIteratorOptions>
+  iteratorOptionsArgument?: Partial<WordIteratorOptions>
 ) => {
   const session = getSession();
-  iteratorOptions = createNestedOptions(
-    iteratorOptions,
+  const iteratorOptions = createNestedOptions(
+    iteratorOptionsArgument,
     defaultWordIteratorOptions
   );
   var startPos = session.getPosition(startNode, startOffset);
@@ -94,18 +99,26 @@ export const createWordIterator = (
   };
 };
 
-export const textRange = {
-  isBlockNode: isBlockNode,
-  isCollapsedWhitespaceNode: isCollapsedWhitespaceNode,
+const createPosition: (
+  node: Node,
+  offset: number
+) => Position = createEntryPointFunction(
+  (session: Session, node: Node, offset: number) => {
+    return session.getPosition(node, offset);
+  }
+);
 
-  createPosition: createEntryPointFunction(
-    (session: Session, node: Node, offset: number) => {
-      return session.getPosition(node, offset);
-    }
-  ),
+export { isBlockNode, isCollapsedWhitespaceNode, createPosition };
+export { nextNode, previousNode };
+export { noMutation };
+
+const noMutation = (func: (session: Session) => void) => {
+  const session = getSession();
+  func(session);
+  endSession();
 };
 
-export { nextNode, previousNode };
+noMutation.createEntryPointFunction = createEntryPointFunction;
 
 WrappedRange.prototype.moveStart = createRangeBoundaryMover(true, false);
 WrappedRange.prototype.moveEnd = createRangeBoundaryMover(false, false);
@@ -116,12 +129,15 @@ WrappedRange.prototype.trimEnd = createRangeTrimmer(false);
 WrappedRange.prototype.expand = createEntryPointFunction(function (
   session: Session,
   unit: string = CHARACTER,
-  expandOptions?: Partial<ExpandOptions>
+  expandOptionsArgument?: ExpandOptionsArgument
 ) {
   const self = this as WrappedRange;
 
   let moved = false;
-  expandOptions = createNestedOptions(expandOptions, defaultExpandOptions);
+  const expandOptions = createNestedOptions(
+    expandOptionsArgument,
+    defaultExpandOptions
+  );
   const characterOptions = expandOptions.characterOptions;
   if (unit == WORD) {
     const wordOptions = expandOptions.wordOptions;
@@ -175,7 +191,7 @@ WrappedRange.prototype.expand = createEntryPointFunction(function (
 
 WrappedRange.prototype.text = createEntryPointFunction(function (
   session: Session,
-  characterOptions: Partial<CharacterOptions>
+  characterOptions?: Partial<CharacterOptions>
 ) {
   const self = this as WrappedRange;
 
@@ -196,7 +212,7 @@ WrappedRange.prototype.selectCharacters = createEntryPointFunction(function (
   containerNode: Node,
   startIndex: number,
   endIndex: number,
-  characterOptions: CharacterOptions
+  characterOptions?: CharacterOptions
 ) {
   const self = this as WrappedRange;
   var moveOptions = { characterOptions: characterOptions };
@@ -213,8 +229,8 @@ WrappedRange.prototype.selectCharacters = createEntryPointFunction(function (
 // Character indexes are relative to the start of node
 WrappedRange.prototype.toCharacterRange = createEntryPointFunction(function (
   session: Session,
-  containerNode: Node,
-  characterOptions: Partial<CharacterOptions>
+  containerNode?: Node,
+  characterOptions?: Partial<CharacterOptions>
 ): { start: number; end: number } {
   const self = this as WrappedRange;
 
@@ -259,7 +275,7 @@ WrappedRange.prototype.toCharacterRange = createEntryPointFunction(function (
 
 WrappedRange.prototype.findText = createEntryPointFunction(function (
   session: Session,
-  searchTermParam: string,
+  searchTermParam: RegExp | string,
   findOptions: Partial<FindOptions>
 ): boolean {
   const self = this as WrappedRange;
@@ -383,7 +399,7 @@ WrappedSelection.prototype.move = createEntryPointFunction(function (
   session: Session,
   unit: string,
   count: number,
-  options: { characterOptions: CharacterOptions }
+  options?: { characterOptions: CharacterOptions }
 ): number {
   const self = this as WrappedSelection;
 

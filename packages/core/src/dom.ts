@@ -113,9 +113,13 @@ export function getClosestAncestorIn(node, ancestor, selfIsAncestor) {
 }
 
 // https://basarat.gitbooks.io/typescript/docs/types/typeGuard.html#user-defined-type-guards
-export function isCharacterDataNode(node): node is CharacterData {
+export function isCharacterDataNode(node: Node): node is CharacterData {
   var t = node.nodeType;
-  return t == 3 || t == 4 || t == 8; // Text, CDataSection or Comment
+  return (
+    t == Node.TEXT_NODE ||
+    t == Node.CDATA_SECTION_NODE ||
+    t == Node.COMMENT_NODE
+  ); // Text, CDataSection or Comment
 }
 
 export function isTextOrCommentNode(node) {

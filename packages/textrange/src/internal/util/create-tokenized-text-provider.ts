@@ -1,10 +1,9 @@
 // Provides a pair of iterators over text positions, tokenized. Transparently requests more text when next()
 
-import { allWhiteSpaceRegex } from '../constants';
+import { allWhiteSpaceRegex, CharacterOptions } from '../constants';
 import log from '../log';
 import Position from '../position';
 import createCharacterIterator from './create-character-iterator';
-import { CharacterOptions } from './create-nested-options';
 import { WordOptions } from './create-word-options';
 import tokenize from './tokenize';
 

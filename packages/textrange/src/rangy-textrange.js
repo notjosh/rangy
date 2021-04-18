@@ -2480,13 +2480,13 @@ rangy.createModule('TextRange', ['WrappedSelection'], function (api, module) {
 
   /*----------------------------------------------------------------------------------------------------------------*/
 
-  api.noMutation = function (func) {
-    var session = getSession();
-    func(session);
-    endSession();
-  };
+  // api.noMutation = function (func) {
+  //   var session = getSession();
+  //   func(session);
+  //   endSession();
+  // };
 
-  api.noMutation.createEntryPointFunction = createEntryPointFunction;
+  // api.noMutation.createEntryPointFunction = createEntryPointFunction;
 
   // api.textRange = {
   //   isBlockNode: isBlockNode,

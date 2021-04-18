@@ -1,11 +1,12 @@
 import { WrappedRange } from '@rangy/core';
+import { CharacterOptions } from '../constants';
 import Session from '../session';
 import createCharacterIterator from './create-character-iterator';
 
 function createRangeCharacterIterator(
   session: Session,
   range: WrappedRange,
-  characterOptions,
+  characterOptions: CharacterOptions,
   backward: boolean = false
 ) {
   var rangeStart = session.getRangeBoundaryPosition(range, true);
