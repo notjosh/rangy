@@ -202,16 +202,21 @@ WrappedRange.prototype.text = createEntryPointFunction(function (
     'text. Transaction: ' + session + ', characterOptions:',
     characterOptions
   );
-  return self.collapsed
-    ? ''
-    : getRangeCharacters(session, self, {
-        ...defaultCharacterOptions,
-        ...characterOptions,
-      }).join('');
+
+  console.log({ collapsed: self.collapsed });
+
+  const chars = getRangeCharacters(session, self, {
+    ...defaultCharacterOptions,
+    ...characterOptions,
+  });
+  const string = chars.join('');
+  console.log({ chars, string });
+
+  return self.collapsed ? '' : string;
 });
 
 WrappedRange.prototype.selectCharacters = createEntryPointFunction(function (
-  session,
+  session: Session,
   containerNode: Node,
   startIndex: number,
   endIndex: number,
@@ -237,6 +242,8 @@ WrappedRange.prototype.toCharacterRange = createEntryPointFunction(function (
 ): { start: number; end: number } {
   const self = this as WrappedRange;
 
+  console.log({ containerNode });
+
   if (!containerNode) {
     containerNode = dom.getBody(self.getDocument());
   }
@@ -249,9 +256,12 @@ WrappedRange.prototype.toCharacterRange = createEntryPointFunction(function (
       parent,
       nodeIndex
     ) == -1;
+  console.log({ parent, nodeIndex, rangeStartsBeforeNode });
   var rangeBetween = self.cloneRange();
-  var startIndex, endIndex;
+  console.log({ rangeBetween });
+  var startIndex: number, endIndex: number;
   if (rangeStartsBeforeNode) {
+    console.log('1');
     rangeBetween.setStartAndEnd(
       self.startContainer,
       self.startOffset,
@@ -260,15 +270,21 @@ WrappedRange.prototype.toCharacterRange = createEntryPointFunction(function (
     );
     startIndex = -rangeBetween.text(characterOptions).length;
   } else {
+    console.log('2');
     rangeBetween.setStartAndEnd(
       parent,
       nodeIndex,
       self.startContainer,
       self.startOffset
     );
-    startIndex = rangeBetween.text(characterOptions).length;
+    const text = rangeBetween.text(characterOptions);
+    console.log({ rangeBetween, text });
+    startIndex = text.length;
   }
-  endIndex = startIndex + self.text(characterOptions).length;
+  const text = self.text(characterOptions);
+  endIndex = startIndex + text.length;
+
+  console.log({ text, startIndex, endIndex });
 
   return {
     start: startIndex,

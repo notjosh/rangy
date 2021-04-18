@@ -20,10 +20,12 @@ QUnit.module('Text Range module tests', {
     el = document.createElement('div') as HTMLElement;
     el.id = 'el';
     container.appendChild(el);
+    console.log('(append)', { parentElement: el.parentElement });
   },
   afterEach: () => {
     if (el != null) {
-      container.removeChild(el);
+      // container.removeChild(el);
+      // console.log('(removed)');
     }
     //textRange.endTransaction();
   },
@@ -1407,14 +1409,19 @@ QUnit.test('toCharacterRange test (issue 286)', function (t) {
 });
 
 QUnit.test('<div><br></div><div>x</div> test (issue 164 part 1)', function (t) {
-  el.innerHTML = '<div><br></div><div>x</div>';
+  console.log('before?', { el, parent: el.parentElement, container });
+  el.innerHTML = '<div id="x">xyz</div>';
+  console.log('after?', { el, parent: el.parentElement, container });
   var div = el.lastChild;
   var range = rangy.createRange();
   range.setStartAndEnd(div, 0);
+  t.equal(range.startOffset, 0, 'range.startOffset');
+  t.equal(range.endOffset, 0, 'range.endOffset');
+  t.equal((el as HTMLElement).innerText, 'xyz', '.innerText');
   var charRange = range.toCharacterRange(el);
   console.log({ div, range, charRange });
   t.equal(charRange.start, 1, 'charRange.start');
-  t.equal(charRange.end, 1, 'charRange.end');
+  t.equal(charRange.end, 3, 'charRange.end');
 });
 
 QUnit.test(

@@ -1,10 +1,10 @@
 const noop = (...args) => {};
 
 const log = {
-  debug: noop /*console.log*/,
-  info: noop /*console.log*/,
-  group: noop,
-  groupEnd: noop,
+  debug: console.log,
+  info: console.log,
+  group: console.log,
+  groupEnd: console.log,
 };
 
 export default log;

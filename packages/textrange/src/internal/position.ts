@@ -328,6 +328,7 @@ class Position {
           log.info(
             'Character is a leading line break and preceding character is a line break or non-existent, so leading line break is excluded'
           );
+          console.log('previousPos.character', previousPos.character);
         }
       } else {
         nextPos = this.nextUncollapsed();
