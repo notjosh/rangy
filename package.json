@@ -53,7 +53,7 @@
     "package": "run-s package:src package:test",
     "package:src": "lerna exec -- yarn package",
     "package:test": "lerna exec -- yarn package:test",
-    "prepublishOnly": "run-s build:scripts clean build"
+    "prepare-dist": "run-s build:scripts clean build package"
   },
   "dependencies": {
     "core-js": "^3.0.1",
