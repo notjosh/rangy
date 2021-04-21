@@ -2,7 +2,7 @@
   "private": true,
   "name": "@notjosh/rangy-test-util",
   "description": "A cross-browser DOM range and selection library",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": {
     "name": "Tim Down",
     "email": "tim@timdown.co.uk",
@@ -56,9 +56,8 @@
     "package:test": "echo ✅ no-op"
   },
   "dependencies": {
-    "@notjosh/rangy-core": "^2.1.0",
+    "@notjosh/rangy-core": "^3.0.0",
     "core-js": "^3.0.1",
     "tslib": "^2.2.0"
-  },
-  "devDependencies": {}
+  }
 }
