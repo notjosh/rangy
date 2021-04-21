@@ -20,12 +20,12 @@ A cross-browser JavaScript range and selection library.
   - So, many bugs like [326](https://github.com/timdown/rangy/issues/326),
     [321](https://github.com/timdown/rangy/issues/321) is auto-fixed!
 
-## Compare to [rangy](https://github.com/ohze/rangy) <= 2.1.0
+## Compare to [rangy](https://github.com/ohze/rangy) 2.x
 
 - added TextRange module back
 - unified some TypeScript to make better use of references
 
-## Guide to migrate from rangy 1.x to rangy2
+## Guide to migrate from rangy 1.x to `@notjosh/rangy` and/or `rangy2`
 
 - removed:
   - `util.extend`. Pls use [Object.assign](http://kangax.github.io/compat-table/es6/#test-Object_static_methods_Object.assign)
