@@ -7,7 +7,7 @@ A cross-browser JavaScript range and selection library.
 - migrated to typescript
   - so, the definition types is always updated
 - use typescript's module (import / export) instead of the complex `rangy.createModule` logic
-- remove TextRange & [inactive](https://github.com/timdown/rangy/tree/master/src/modules/inactive) modules
+- remove ~~TextRange &~~ [inactive](https://github.com/timdown/rangy/tree/master/src/modules/inactive) modules
   - if you use those modules, please migrate to rangy2 & create a pull request.
 - use [rollup](https://rollupjs.org) instead of the
   [old complex manually with text-replacing building logic](https://github.com/timdown/rangy/blob/master/builder/build.js)
@@ -19,6 +19,11 @@ A cross-browser JavaScript range and selection library.
   - rangy is "initialized" even before DOM ready!
   - So, many bugs like [326](https://github.com/timdown/rangy/issues/326),
     [321](https://github.com/timdown/rangy/issues/321) is auto-fixed!
+
+## Compare to [rangy](https://github.com/ohze/rangy) <= 2.1.0
+
+- added TextRange module back
+- unified some TypeScript to make better use of references
 
 ## Guide to migrate from rangy 1.x to rangy2
 
@@ -44,7 +49,7 @@ import 'core-js/features/object/assign';
 ## Install
 
 ```bash
-yarn add rangy2
+yarn add @notjosh/rangy
 ```
 
 ## Documentation
@@ -55,7 +60,9 @@ Documentation is in [the GitHub wiki](https://github.com/timdown/rangy/wiki).
 
 ```bash
 yarn install
-yarn run dev
+yarn bootstrap # compile the typescript `scripts/` dir
+yarn build     # typescript -> js
+yarn package   # js -> umd/es/etc
 ```
 
-- test by opening test/\*.html in a desktop or mobile browser
+- test by opening `packages/*/test/*.html` in a desktop or mobile browser

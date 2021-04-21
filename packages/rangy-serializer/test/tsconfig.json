@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.test.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": ".",
+    "baseUrl": "./",
+    "paths": {
+      "@notjosh/rangy-core": ["../../rangy-core/src"],
+      "@notjosh/rangy-serializer": ["../src"],
+      "@notjosh/rangy-test-util": ["../../rangy-test-util/src"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "test"],
+  "references": [
+    { "path": "../" },
+    { "path": "../../rangy-core" },
+    { "path": "../../rangy-test-util" }
+  ]
+}

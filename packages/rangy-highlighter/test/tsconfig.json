@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.test.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": ".",
+    "baseUrl": "./",
+    "paths": {
+      "@notjosh/rangy-classapplier": ["../../rangy-classapplier/src"],
+      "@notjosh/rangy-core": ["../../rangy-core/src"],
+      "@notjosh/rangy-highlighter": ["../src"],
+      "@notjosh/rangy-test-util": ["../../rangy-test-util/src"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "test"],
+  "references": [
+    { "path": "../" },
+    { "path": "../../rangy-classapplier" },
+    { "path": "../../rangy-core" },
+    { "path": "../../rangy-test-util" }
+  ]
+}

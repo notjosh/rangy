@@ -60,7 +60,7 @@ function configsFor(module: string, isProd: boolean): RollupOptions[] {
   const isRangyModule = module !== 'core';
 
   // Indicate here external modules you don't wanna include in your bundle
-  const external = isRangyModule ? ['@rangy/core'] : [];
+  const external = isRangyModule ? ['@notjosh/rangy-core'] : [];
   return [
     // {
     //   input: [`${d}/index.ts`],
@@ -70,7 +70,7 @@ function configsFor(module: string, isProd: boolean): RollupOptions[] {
     //     name: 'rangy',
     //     sourcemap: true,
     //     extend: isRangyModule,
-    //     globals: { '@rangy/core': 'rangy' },
+    //     globals: { '@notjosh/rangy-core': 'rangy' },
     //   },
     //   inlineDynamicImports: true,
     //   external,

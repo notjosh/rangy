@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "name": "rangy2",
+  "name": "@notjosh/rangy",
   "description": "A cross-browser DOM range and selection library",
   "author": {
     "name": "Tim Down",
@@ -15,6 +15,11 @@
       "name": "Bui Viet Thanh",
       "email": "thanhbv@sandinh.net",
       "url": "https://github.com/ohze"
+    },
+    {
+      "name": "Joshua May",
+      "email": "github@hotdog.horse",
+      "url": "https://github.com/notjosh"
     }
   ],
   "keywords": [
@@ -23,9 +28,9 @@
     "caret",
     "DOM"
   ],
-  "homepage": "https://github.com/ohze/rangy",
+  "homepage": "https://github.com/notjosh/rangy",
   "bugs": {
-    "url": "https://github.com/ohze/rangy/issues"
+    "url": "https://github.com/notjosh/rangy/issues"
   },
   "licenses": [
     {
@@ -35,7 +40,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ohze/rangy.git"
+    "url": "https://github.com/notjosh/rangy.git"
   },
   "scripts": {
     "bootstrap": "yarn build:scripts",

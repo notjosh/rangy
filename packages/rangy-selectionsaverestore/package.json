@@ -1,0 +1,63 @@
+{
+  "name": "@notjosh/rangy-selectionsaverestore",
+  "description": "A cross-browser DOM range and selection library",
+  "version": "2.1.0",
+  "author": {
+    "name": "Tim Down",
+    "email": "tim@timdown.co.uk",
+    "url": "http://timdown.co.uk/"
+  },
+  "contributors": [
+    {
+      "name": "Bui Viet Thanh",
+      "email": "thanhbv@sandinh.net",
+      "url": "https://github.com/ohze"
+    },
+    {
+      "name": "Joshua May",
+      "email": "github@hotdog.horse",
+      "url": "https://github.com/notjosh"
+    }
+  ],
+  "keywords": [
+    "range",
+    "selection",
+    "caret",
+    "DOM"
+  ],
+  "homepage": "https://github.com/notjosh/rangy",
+  "bugs": {
+    "url": "https://github.com/notjosh/rangy/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notjosh/rangy.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "typings": "dist/types/index.d.ts",
+  "scripts": {
+    "clean": "run-p -l clean:*",
+    "clean:src": "rimraf dist",
+    "clean:test": "rimraf test/*.js",
+    "build": "tsc -b .",
+    "package": "yarn rollup -c ../../scripts/rollup.config.js",
+    "build:test": "tsc -b ./test/tsconfig.json",
+    "package:test": "yarn rollup -c ../../scripts/rollup.config.test.js"
+  },
+  "dependencies": {
+    "@notjosh/rangy-core": "^2.1.0",
+    "core-js": "^3.0.1",
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {}
+}

@@ -1,12 +1,9 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import strip from '@rollup/plugin-strip';
+import * as glob from 'glob';
 import path from 'path';
 import { ModuleFormat, RollupOptions } from 'rollup';
-import replace from 'rollup-plugin-re';
-import { terser } from 'rollup-plugin-terser';
 import { packages } from './util';
-import * as glob from 'glob';
 
 const { LERNA_PACKAGE_NAME, LERNA_ROOT_PATH } = process.env;
 const PACKAGE_ROOT_PATH = process.cwd();
@@ -18,10 +15,10 @@ const ALL_MODULES = packages;
 
 const LOCAL_GLOBALS = {
   // TODO: autogenerate
-  '@rangy/test-util': 'window["@rangy/test-util"]',
-  '@rangy/textrange': 'window["@rangy/textrange"]',
+  '@notjosh/rangy-test-util': 'window["@notjosh/rangy-test-util"]',
+  '@notjosh/rangy-textrange': 'window["@notjosh/rangy-textrange"]',
 
-  '@rangy/core': 'rangy',
+  '@notjosh/rangy-core': 'rangy',
   qunit: 'qunit',
 };
 
@@ -30,10 +27,6 @@ const LOCAL_EXTERNALS = Object.keys(LOCAL_GLOBALS);
 const globals = LOCAL_GLOBALS;
 
 const external = [...ALL_MODULES, ...LOCAL_EXTERNALS, 'qunit'];
-
-const outputFile = (f: string, isProduction: boolean) => {
-  return isProduction ? f.replace(/\.js$/, '.min.js') : f;
-};
 
 const make = (inputFileName: string): RollupOptions => {
   const input = path.join(INPUT_DIR, inputFileName);
@@ -89,7 +82,7 @@ export default configs;
 // const plugins: Plugin[] = [nodeResolve(), commonjs(), sourceMaps()];
 
 // //all rangy modules are external dependencies to test code
-// const external = packages.map((n) => '@rangy/' + n);
+// const external = packages.map((n) => '@notjosh/rangy-' + n);
 
 // //map all external dependencies to global name 'rangy'
 // const globals = {};
@@ -144,7 +137,7 @@ export default configs;
 //     name: 'rangy',
 //     sourcemap: true,
 //     extend: true,
-//     globals: { '@rangy/core': 'rangy' },
+//     globals: { '@notjosh/rangy-core': 'rangy' },
 //   },
 //   inlineDynamicImports: true,
 //   external,
