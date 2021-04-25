@@ -150,10 +150,7 @@ export function splitDataNode(
   log.debug(
     'splitDataNode called at index ' + index + ' in node ' + inspectNode(node)
   );
-  var newNode = node.cloneNode(false) as CharacterData;
-  newNode.deleteData(0, index);
-  node.deleteData(index, node.length - index);
-  insertAfter(newNode, node);
+  const newNode = (node as Text).splitText(index);
 
   // Preserve positions
   if (positionsToPreserve) {
