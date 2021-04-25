@@ -1,7 +1,7 @@
 {
   "name": "@notjosh/rangy-textrange",
   "description": "A cross-browser DOM range and selection library",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": {
     "name": "Tim Down",
     "email": "tim@timdown.co.uk",
@@ -55,7 +55,7 @@
     "package:test": "yarn rollup -c ../../scripts/rollup.config.test.js"
   },
   "dependencies": {
-    "@notjosh/rangy-core": "^3.0.0",
+    "@notjosh/rangy-core": "^3.0.1",
     "core-js": "^3.0.1",
     "tslib": "^2.2.0"
   }

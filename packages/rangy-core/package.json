@@ -1,7 +1,7 @@
 {
   "name": "@notjosh/rangy-core",
   "description": "A cross-browser DOM range and selection library",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": {
     "name": "Tim Down",
     "email": "tim@timdown.co.uk",
@@ -59,6 +59,6 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@notjosh/rangy-test-util": "^3.0.0"
+    "@notjosh/rangy-test-util": "^3.0.1"
   }
 }
